@@ -1,14 +1,20 @@
-﻿namespace BusinessLogin;
+﻿using Core;
 
-public class ExtractorManager
-{
-    public ExtractorManager()
-    {
-        
-    }
+namespace BusinessLogin;
 
-    public void ExtractData()
+    public class ExtractorManager
     {
+        public ExtractorManager()
+        {
+            
+        }
         
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public void ExtractData()
+        {
+            
+        }
     }
-}
