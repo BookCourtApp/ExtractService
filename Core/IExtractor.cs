@@ -1,26 +1,8 @@
-namespace Core;
+using ExtractorService.Models;
 
-/// <summary>
-/// интерфейс Extractor
-/// </summary>
-public interface IExtractor
-{
-
-    /// <summary>
-    /// метод, который возвращает окончание работы Extract
-    /// </summary>
-    /// <returns>True, если выкачка закончилась</returns>
-    public bool IsEndData(); 
-
-
-    /// <summary>
-    /// Выкачка следующих буферов(пачек) 
-    /// </summary>
-    /// <returns>Возвращает Id ExtractorResult</returns>
-    public Guid ExtractNextBatch();
-
-    
-
-}    
-
-
+namespace ExtractorService.Extractor{
+    public interface IExtractor{
+        public bool IsEndData {get;set;}
+        public ExtractorResult ExtractNextBatch();
+    }
+}
