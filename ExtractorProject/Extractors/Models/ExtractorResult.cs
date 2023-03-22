@@ -6,6 +6,6 @@ namespace ExtractorService.Models
         public ErrorResultInfo ErrorResult { get; set; }
         public DateTime AverageBookProcessing { get; set; }
         public DateTime TimeOfCompletion { get; set; }
-        public List<T> Buffer { get; set; }
+        public List<Book> Buffer { get; set; }
     }
 }
