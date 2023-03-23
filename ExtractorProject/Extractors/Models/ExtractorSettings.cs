@@ -1,7 +1,7 @@
 
 namespace ExtractorService.Models
 {
-    public class ExtractorSetting
+    public class ExtractorSettings
     {
         public string URL { get; set; }
         public ExtractorType Type { get; set; }

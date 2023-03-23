@@ -1,8 +1,7 @@
 namespace ExtractorService.Models
 {
-    public class ExtractorResult
+    public class ExtractBatchResult
     {
-        public Guid Id {get;set;}
         public int ExtratctorDataCount { get; set; }
         public ErrorResultInfo ErrorResult { get; set; }
         public DateTime AverageBookProcessing { get; set; }

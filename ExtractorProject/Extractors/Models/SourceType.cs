@@ -1,7 +1,7 @@
 
 namespace ExtractorService.Models
 {
-    public enum SourceType 
+    public enum ExtractorType
     {
         API = 0,
         HTML = 1,
