@@ -1,6 +1,6 @@
 namespace ExtractorService.Models
 {
-    public class ExtractBatchResult
+    public class ExtractBatchResult<T>
     {
         /// <summary>
         /// Количество выгруженных записей
@@ -21,6 +21,6 @@ namespace ExtractorService.Models
         /// <summary>
         /// Коллекция спарешнных данных
         /// </summary>
-        public List<Book> Buffer { get; set; }
+        public List<T> Buffer { get; set; }
     }
 }

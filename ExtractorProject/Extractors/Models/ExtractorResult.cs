@@ -1,6 +1,6 @@
 namespace ExtractorService.Models
 {
-    public class ExtractorResult
+    public class ExtractorResult<T>
     {
         /// <summary>
         /// Поле Id для хранения записей ExtractorResult в базеданных
@@ -25,6 +25,6 @@ namespace ExtractorService.Models
         /// <summary>
         /// Коллекция спарешнных данных
         /// </summary>
-        public List<Book> Buffer { get; set; }
+        public List<T> Buffer { get; set; }
     }
 }
