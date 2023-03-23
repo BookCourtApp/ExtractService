@@ -1,11 +1,7 @@
 namespace ExtractorService.Models
 {
-    public class ExtractorResult<T>
+    public class ExtractBatchResult<T>
     {
-        /// <summary>
-        /// Поле Id для хранения записей ExtractorResult в базеданных
-        /// </summary>
-        public Guid Id {get;set;}
         /// <summary>
         /// Количество выгруженных записей
         /// </summary>
