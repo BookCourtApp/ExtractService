@@ -1,12 +1,10 @@
 namespace ExtractorService.Models
 {
-    public class Error
+    public class EntityError
     {
         /// <summary>
         /// Причина ошибки
         /// </summary>
-
-        public Guid Id { get; set; }
         public string Reason { get; set; }
         public PlaceType Type{ get; set; } 
     }
