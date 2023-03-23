@@ -5,8 +5,9 @@ namespace ExtractorService.Extractor{
         /// <summary>
         /// Конструктор для инициализации парсера
         /// </summary>
+        ExtractorSettings _settings{ get; set; }
         public AbstractExtractor(ExtractorSettings Settings){
-            throw new NotImplementedException();
+            _settings = Settings;
         }
     }
 }
