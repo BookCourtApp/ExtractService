@@ -5,7 +5,7 @@ namespace ExtractorService.Extractor{
         /// <summary>
         /// Конструктор для инициализации парсера
         /// </summary>
-        ExtractorSettings _settings{ get; set; }
+        private readonly ExtractorSettings _settings;
         public AbstractExtractor(ExtractorSettings Settings){
             _settings = Settings;
         }
