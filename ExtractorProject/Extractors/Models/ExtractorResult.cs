@@ -1,6 +1,6 @@
 namespace ExtractorService.Models
 {
-    public class ExtractorResult<T>
+    public class ExtractorResult
     {
         /// <summary>
         /// Поле Id для хранения записей ExtractorResult в базеданных
@@ -22,9 +22,5 @@ namespace ExtractorService.Models
         /// Время выполнения парсинга
         /// </summary>
         public DateTime TimeOfCompletion { get; set; }
-        /// <summary>
-        /// Коллекция спарешнных данных
-        /// </summary>
-        public List<T> Buffer { get; set; }
     }
 }
