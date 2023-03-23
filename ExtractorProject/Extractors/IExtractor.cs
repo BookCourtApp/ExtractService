@@ -1,7 +1,7 @@
 using ExtractorService.Models;
 
 namespace ExtractorService.Extractor{
-    public interface IExtractor{
+    public interface IExtractor<T>{
         /// <summary>
         /// Возвращает окончание работы Extractor'а
         /// </summary>
@@ -11,6 +11,6 @@ namespace ExtractorService.Extractor{
         /// Метод для парсинга информации
         /// </summary>
         /// <returns>Класс ExtractBatchResult с информацией о парсинге и коллекцией записей парсинга</returns>
-        public ExtractBatchResult ExtractNextBatch();
+        public ExtractBatchResult<T> ExtractNextBatch();
     }
 }
