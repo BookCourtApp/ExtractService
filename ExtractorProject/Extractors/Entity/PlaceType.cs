@@ -5,7 +5,7 @@ namespace ExtractorService.Models
     /// <summary>
     /// Перечисление для определения процесса, при котором произошла ошибка
     /// </summary>
-    public enum PlaceType
+    public enum EntityPlaceType
     {
         /// <summary>Ошибка при процессе получения данных</summary>
         Extracting = 0,

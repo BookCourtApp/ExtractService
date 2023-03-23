@@ -1,12 +1,8 @@
 
 namespace ExtractorService.Models
 {
-    public class Book
+    public class EntityBook
     {
-        /// <summary>
-        /// Id книги
-        /// </summary>
-        public Guid Id { get; set; }
         /// <summary>
         /// Имя книги
         /// </summary>
