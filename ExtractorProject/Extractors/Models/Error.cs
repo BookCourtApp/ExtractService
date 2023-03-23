@@ -8,6 +8,8 @@ namespace ExtractorService.Models
 
         public Guid Id { get; set; }
         public string Reason { get; set; }
-        public PlaceType Type{ get; set; } 
+        public PlaceType Type{ get; set; }
+
+        public Guid ExtractorResultId { get; set; }
     }
 }
