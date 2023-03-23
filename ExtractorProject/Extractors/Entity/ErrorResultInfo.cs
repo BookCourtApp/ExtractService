@@ -1,5 +1,10 @@
+using ExtractorService.ExtractorProject.Extractors.Models;
 
-namespace ExtractorService.Models{
+namespace ExtractorService.ExtractorProject.Extractors.Entity
+{
+    /// <summary>
+    /// Сущность для хранения информации об ошибке
+    /// </summary>
     public class ErrorResultInfo
     {
         /// <summary>

@@ -1,6 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using ExtractorService.Models;
 using InfrastructureProject;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;

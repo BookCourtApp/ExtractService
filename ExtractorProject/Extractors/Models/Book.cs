@@ -1,6 +1,9 @@
 
-namespace ExtractorService.Models
+namespace ExtractorService.ExtractorProject.Extractors.Models
 {
+    /// <summary>
+    /// Модель для хранения информации о книге в бд. 
+    /// </summary>
     public class Book
     {
         /// <summary>

@@ -1,12 +1,22 @@
-using ExtractorService.Models;
+using ExtractorService.ExtractorProject.Extractors.Entity;
 
-namespace ExtractorService.Extractor{
-    public abstract class AbstractExtractor{
+namespace ExtractorService.ExtractorProject.Extractors
+{
+    /// <summary>
+    /// Абстрактный базовый класс, который задает вектор разработки парсера.
+    /// </summary>
+    public abstract class AbstractExtractor
+    {
         /// <summary>
-        /// Конструктор для инициализации парсера
+        /// Поле для хранения настроек парсера и их последующего использования в них
         /// </summary>
         private readonly ExtractorSettings _settings;
-        public AbstractExtractor(ExtractorSettings Settings){
+        /// <summary>
+        /// Конструктор для инициализации настроек парсера
+        /// </summary>
+        /// <param name="Settings">Поле для настроек парсера</param>
+        public AbstractExtractor(ExtractorSettings Settings)
+        {
             _settings = Settings;
         }
     }

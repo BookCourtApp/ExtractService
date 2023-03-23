@@ -1,6 +1,9 @@
 
-namespace ExtractorService.Models
+namespace ExtractorService.ExtractorProject.Extractors.Entity
 {
+    /// <summary>
+    /// Сущность для хранения настроек парсера
+    /// </summary>
     public class ExtractorSettings
     {
         /// <summary>

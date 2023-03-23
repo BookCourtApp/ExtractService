@@ -1,6 +1,6 @@
-﻿using ExtractorService.Models;
+﻿using ExtractorService.ExtractorProject.Extractors.Entity;
 
-namespace ExtractorService.Extractor
+namespace ExtractorService.ExtractorProject.Extractors
 {
     public interface IExtractorLiveLib<T>
     {

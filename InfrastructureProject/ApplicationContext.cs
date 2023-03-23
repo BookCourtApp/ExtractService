@@ -1,4 +1,4 @@
-﻿using ExtractorService.Models;
+﻿using ExtractorService.ExtractorProject.Extractors.Models;
 using InfrastructureProject.Config;
 using Microsoft.EntityFrameworkCore;
 

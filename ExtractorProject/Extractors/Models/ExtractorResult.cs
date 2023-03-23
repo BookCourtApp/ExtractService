@@ -1,5 +1,8 @@
-namespace ExtractorService.Models
+namespace ExtractorService.ExtractorProject.Extractors.Models
 {
+    /// <summary>
+    /// Модель для хранении информации о результате парсинга
+    /// </summary>
     public class ExtractorResult
     {
         /// <summary>
