@@ -5,15 +5,18 @@ namespace ExtractorService.Models
         /// <summary>
         /// Поле Id для хранения записей ExtractorResult в базеданных
         /// </summary>
-        public Guid Id {get;set;}
+        public Guid Id {get;set;} 
+        
         /// <summary>
         /// Количество выгруженных записей
         /// </summary>
-        public int ExtratctorDataCount { get; set; }
+        public int ExtractorDataCount { get; set; }
+
         /// <summary>
-        /// Коллекция результатов ошибок
+        /// Список ошибок
         /// </summary>
-        public ErrorResultInfo ErrorResult { get; set; }
+        public List<Error> Errors { get; set; }
+        
         /// <summary>
         /// Среднее время обработки ошибок
         /// </summary>

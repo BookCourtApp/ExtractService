@@ -23,9 +23,7 @@ public class ApplicationContext : DbContext
     // /// Коллекция дата сетов результатов экстрактора
     // /// </summary>
     // /// 
-     public DbSet<ExtractorResult> ExtractorResults{ get; set; }
-    
-    public string DbPath { get; }
+     public DbSet<ExtractorResult> ExtractorResults { get; set; }
     
     /// <summary>
     /// .cotr

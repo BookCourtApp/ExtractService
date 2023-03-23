@@ -1,5 +1,6 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using ExtractorService.Models;
 using InfrastructureProject;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,9 +21,9 @@ using IHost host = Host.CreateDefaultBuilder(args)
 
 #region DbDepednencyExample
 
-// получаем из зависимостей контекст
-// var context = host.Services.GetService<ApplicationContext>();
-// 
+//получаем из зависимостей контекст
+var context = host.Services.GetService<ApplicationContext>();
+
 // context.Books.Add(new Book()
 // {
 //     Name = "",
@@ -33,9 +34,34 @@ using IHost host = Host.CreateDefaultBuilder(args)
 //     ISBN = "",
 //     SourceName = ""
 // });
+
+// Тест связей
+// var extractorId = Guid.NewGuid();
+// context.ExtractorResults.Add(
+//     new ExtractorResult()
+//     {
+//         Id = extractorId,
+//         AverageBookProcessing = DateTime.Now,
+//         ExtractorDataCount = 10,
+//         Errors = new List<Error>()
+//         {
+//             new Error()
+//             {
+//                 Id = Guid.NewGuid(),
+//                 ExtractorResultId = extractorId,
+//                 Reason = ""
+//             },
+//             new Error()
+//             {
+//             Id = Guid.NewGuid(),
+//             ExtractorResultId = extractorId,
+//             Reason = "aa"
+//         }
+//         }
+//     });
 // context.SaveChanges();
-//
-// Console.WriteLine(context.Books.Count());
+
+Console.WriteLine(context.Errors.Count());
 
 
 #endregion
