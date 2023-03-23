@@ -5,9 +5,9 @@ namespace ExtractorService.Extractor{
         ExtractorBooks(ExtractorSettings Settings) : base(Settings){
             throw new NotImplementedException();
         }
-        public bool IsEndData {get;set;}
-        //public IDocument ExtractReviews();
-        //public List<Book> HandleData(IDocument Page); 
+        public bool IsEndData(){
+            throw new NotImplementedException();
+        }
         public ExtractBatchResult ExtractNextBatch(){
             throw new NotImplementedException(); 
         }
