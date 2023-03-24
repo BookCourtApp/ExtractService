@@ -1,3 +1,3 @@
 #ExtractService
 
-Service that will extract data for us
+Service that will extract data for us(а можна по русски)
