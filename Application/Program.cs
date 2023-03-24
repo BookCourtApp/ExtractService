@@ -14,7 +14,6 @@ using IHost host = Host.CreateDefaultBuilder(args)
         services.AddDbContext<ApplicationContext>(options =>
         {
             var config = context.Configuration;
-            // захардкодил путь до БД, перед запуском нужно поставить свой путь.В существуюзей папке будет создаваться/использоваться .db файл как БД sqlite
             // sqlite это in-memory db
             var connectionString = config.GetValue<string>("SqliteConnectionString");
             options.UseSqlite(connectionString);      
