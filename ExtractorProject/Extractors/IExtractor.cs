@@ -2,6 +2,10 @@ using ExtractorService.ExtractorProject.Extractors.Entity;
 
 namespace ExtractorService.ExtractorProject.Extractors
 {
+    /// <summary>
+    /// Интерфейс, описывающий реализацию парсеров 
+    /// </summary>
+    /// <typeparam name="T">Обобщенный тип, нужный для парсинга разного рода данных(например книги, или отзывы)</typeparam>
     public interface IExtractor<T>{
         /// <summary>
         /// Возвращает окончание работы Extractor'а
