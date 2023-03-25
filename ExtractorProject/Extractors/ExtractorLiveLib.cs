@@ -1,6 +1,7 @@
-using ExtractorService.ExtractorProject.Extractors.Entity;
+using Core;
+using Core.Object;
 
-namespace ExtractorService.ExtractorProject.Extractors
+namespace ExtractorProject.Extractors
 {
     public class ExtractorLiveLib<T> : AbstractExtractor, IExtractor<T>
     {
@@ -8,7 +9,7 @@ namespace ExtractorService.ExtractorProject.Extractors
         {
         }
 
-        public ExtractBatchResult<T> ExtractNextBatch()
+        public Task<ExtractBatchResult<T>> ExtractNextBatch()
         {
             throw new NotImplementedException();
         }

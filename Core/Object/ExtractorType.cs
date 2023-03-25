@@ -1,5 +1,5 @@
 
-namespace ExtractorService.ExtractorProject.Extractors.Entity
+namespace Core.Object
 {
     /// <summary>
     /// Перечисление для выбора метода парсинга данных с сайта

@@ -1,4 +1,4 @@
-namespace ExtractorService.ExtractorProject.Extractors.Models
+namespace Core.Models
 {
     /// <summary>
     /// Модель для хранении информации о результате парсинга
@@ -6,7 +6,7 @@ namespace ExtractorService.ExtractorProject.Extractors.Models
     public class ExtractorResult
     {
         /// <summary>
-        /// Поле Id для хранения записей ExtractorResult в базеданных
+        /// Поле Id для хранения записей ExtractorResult в базе данных
         /// </summary>
         public Guid Id {get;set;} 
         
@@ -28,5 +28,7 @@ namespace ExtractorService.ExtractorProject.Extractors.Models
         /// Время выполнения парсинга
         /// </summary>
         public DateTime TimeOfCompletion { get; set; }
+
+        public ExtractorStatus Status { get; set; }
     }
 }

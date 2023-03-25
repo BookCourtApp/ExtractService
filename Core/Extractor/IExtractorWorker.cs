@@ -1,4 +1,6 @@
-﻿namespace Core;
+﻿using Core.Object;
+
+namespace Core;
 
 /// <summary>
 /// интерфейс ExtractorWorker
@@ -8,8 +10,10 @@ public interface IExtractorWorker
     /// <summary>
     /// Запуск Extractor по заданным условиям
     /// </summary>
-    /// <returns>Возвращает результат работы с условиями</returns>
-    public void ExtractData(string setings);
+    /// <param name="settings">Настройки экстрактора</param>
+    /// <typeparam name="T">T тип выкачиваемой модели</typeparam>
+    /// <returns>Возвращает результат работы экстрактора</returns>
+    public Task ExtractDataAsync<T>(ExtractorSettings settings);
 
 
 

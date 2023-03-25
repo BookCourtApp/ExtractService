@@ -5,8 +5,8 @@ namespace Core
     /// <summary>
     /// Интерфейс, описывающий реализацию парсеров 
     /// </summary>
-    /// <typeparam name="T">Обобщенный тип, нужный для парсинга разного рода данных(например книги, или отзывы)</typeparam>
-    public interface IExtractor<T>{
+    public interface IExtractor <T> 
+    {
         /// <summary>
         /// Возвращает окончание работы Extractor'а
         /// </summary>
@@ -16,6 +16,11 @@ namespace Core
         /// Метод для парсинга информации
         /// </summary>
         /// <returns>Класс ExtractBatchResult с информацией о парсинге и коллекцией записей парсинга</returns>
-        public ExtractBatchResult<T> ExtractNextBatch();
+        public Task<ExtractBatchResult<T>> ExtractNextBatch();
+
+        // /// <summary>
+        // /// Возвращает тип модели, в которую происходит выкачка данных
+        // /// </summary>
+        // public Type GetParsingModelType();
     }
 }

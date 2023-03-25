@@ -1,5 +1,4 @@
-﻿using ExtractorService.ExtractorProject.Extractors.Models;
-using InfrastructureProject.Config;
+﻿using Core.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace InfrastructureProject;

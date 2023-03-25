@@ -1,4 +1,6 @@
-﻿namespace Core;
+﻿using Core.Object;
+
+namespace Core;
 
 /// <summary>
 /// интерфейс фабрики для экстрактора
@@ -11,5 +13,5 @@ public interface IExtractorFactory
     /// </summary>
     /// <param name="extractorSettings">Настройки для создания экстрактора</param>
     /// <returns>Экстрактор с определенным типом</returns>
-    public IExtractor<> CreateExtractor(string extractorSettings); // todo: заменить string на норм типы
+    public IExtractor<T> CreateExtractor<T>( ExtractorSettings extractorSettings); // todo: заменить string на норм типы
 }

@@ -1,9 +1,11 @@
-namespace ExtractorService.ExtractorProject.Extractors.Entity
+using Core.ExtractModels;
+using Core.Models;
+
+namespace Core.Object
 {
     /// <summary>
     /// Сущность для хранения информации о результате парсинга 
     /// </summary>
-    /// <typeparam name="T">Обобщенный тип, нужный для парсинга разного рода данных(например книги, или отзывы)</typeparam>
     public class ExtractBatchResult<T>
     {
         /// <summary>
@@ -13,7 +15,7 @@ namespace ExtractorService.ExtractorProject.Extractors.Entity
         /// <summary>
         /// Коллекция результатов ошибок
         /// </summary>
-        public ErrorResultInfo ErrorResult { get; set; }
+        public List<Error> Errors { get; set; }
         /// <summary>
         /// Среднее время обработки ошибок
         /// </summary>
@@ -22,6 +24,7 @@ namespace ExtractorService.ExtractorProject.Extractors.Entity
         /// Время выполнения парсинга
         /// </summary>
         public DateTime TimeOfCompletion { get; set; }
+        
         /// <summary>
         /// Коллекция спарешнных данных
         /// </summary>
