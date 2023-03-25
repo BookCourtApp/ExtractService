@@ -1,6 +1,6 @@
-using ExtractorService.ExtractorProject.Extractors.Entity;
+using ExtractorProject.Extractors.Entity;
 
-namespace ExtractorService.ExtractorProject.Extractors.Models
+namespace ExtractorProject.Extractors.Models
 {
     /// <summary>
     /// Модель для хранении информации об ошибке в бд.

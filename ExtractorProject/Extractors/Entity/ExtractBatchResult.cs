@@ -1,4 +1,4 @@
-namespace ExtractorService.ExtractorProject.Extractors.Entity
+namespace ExtractorProject.Extractors.Entity
 {
     /// <summary>
     /// Сущность для хранения информации о результате парсинга 
