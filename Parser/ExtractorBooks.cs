@@ -2,13 +2,21 @@
 using System.Text;
 using AngleSharp;
 using AngleSharp.Dom;
-using BookParser;
+using ExtractorProject.Extractors.Models;
+using InfrastructureProject;
 using Newtonsoft.Json;
 
 namespace LabirintExtractor;
 
 public class ExtractorBooks{
+    
+    private readonly ApplicationContext _context;
 
+    public ExtractorBooks(ApplicationContext context)
+    {
+        _context = context;
+    }
+    
     public static IDocument GetDocument(string url)
     {
         var config = Configuration.Default.WithDefaultLoader();
@@ -150,7 +158,7 @@ public class ExtractorBooks{
                         Console.WriteLine(e);   
                     }
 
-                    book.LabirintBookId = i;
+                    book.SiteBookId = i.ToString();
                     book.ParsingDate = DateTime.UtcNow;
                     books.Add(book);
                     timer.Stop();
@@ -188,14 +196,16 @@ public class ExtractorBooks{
         return null;
     }
 
-    public void Parse(string URL, int startPage, int endPage)
+    public async Task Parse(string URL, int startId, int endId)
     {
-        List<Book>books = ParseBooksInfo("https://www.labirint.ru/books/", startPage, endPage);
-        WriteToJSON("Labirint_demochka.json",books);
+        List<Book>books = ParseBooksInfo("https://www.labirint.ru/books/", startId, endId);
+        WriteToJSON($"Labirint-{startId}To{endId}_{DateTime.Now}.json",books);
+        await AddToDatabase(books);
     }
 
-    public void AddToDatabase(List<Book> batch)
+    public async Task AddToDatabase(List<Book> batch)
     {
-        
+        await _context.Books.AddRangeAsync(batch);
+        await _context.SaveChangesAsync();
     }
 }
