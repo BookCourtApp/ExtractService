@@ -1,5 +1,7 @@
 ﻿using ExtractorProject.Extractors.Models;
 using InfrastructureProject;
+using Microsoft.EntityFrameworkCore;
+using Core;
 
 namespace Core.Database;
 
@@ -12,9 +14,9 @@ public class BookService
         _context = context;
     }
 
-    public async Task AddRange(List<Book> books)
+    public async Task AddRangeAsync(List<Book> books)
     {
-        var notExistingBooks = books.Where(b1 => _context.Books.FirstOrDefault(b2 => b1.SiteBookId == b2.SiteBookId) is null);
+        var notExistingBooks = await books.AsyncParallelWhereOrderedByCompletion(async b1 => await _context.Books.FirstOrDefaultAsync(b2 => b1.SiteBookId == b2.SiteBookId) is null);
         await _context.Books.AddRangeAsync(notExistingBooks);
         await _context.SaveChangesAsync();
     }

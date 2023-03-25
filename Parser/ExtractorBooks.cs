@@ -2,6 +2,7 @@
 using System.Text;
 using AngleSharp;
 using AngleSharp.Dom;
+using Core.Database;
 using ExtractorProject.Extractors.Models;
 using InfrastructureProject;
 using Newtonsoft.Json;
@@ -10,11 +11,11 @@ namespace LabirintExtractor;
 
 public class ExtractorBooks{
     
-    private readonly ApplicationContext _context;
+    private readonly BookService _service;
 
-    public ExtractorBooks(ApplicationContext context)
+    public ExtractorBooks(BookService service)
     {
-        _context = context;
+        _service = service;
     }
     
     public static IDocument GetDocument(string url)
@@ -40,6 +41,7 @@ public class ExtractorBooks{
                 string image = "";
                 int numberOfPages = 0;
                 int publishingYear = 0;
+                string breadcrqmbs = "";
                 var document = GetDocument(url + Convert.ToString(i));    
                 string tag = "";
                 try
@@ -49,7 +51,7 @@ public class ExtractorBooks{
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e);
+                   // Console.WriteLine(e);
                 }
                 if (tag.Contains("Книги"))
                 {
@@ -62,7 +64,7 @@ public class ExtractorBooks{
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine(e);
+                      //  Console.WriteLine(e);
                     }
 
                     try
@@ -72,7 +74,7 @@ public class ExtractorBooks{
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine(e);
+                       // Console.WriteLine(e);
                     }
 
                     try
@@ -87,17 +89,18 @@ public class ExtractorBooks{
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine(e);
+                       // Console.WriteLine(e);
                     }
 
                     try
                     {
-                        ISBN = document.QuerySelector("div.isbn").TextContent.ToString().Replace("ISBN: ", "");
+                        ISBN = document.QuerySelector("div.isbn").TextContent.Replace("все", "").Replace("скрыть", "").Replace("ISBN: ", "");
+                        //ISBN = document.QuerySelector("div.isbn").TextContent.ToString().Replace("ISBN: ", "");
                         book.ISBN = ISBN;
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine(e);
+                        //Console.WriteLine(e);
                     }
 
                     try
@@ -107,7 +110,7 @@ public class ExtractorBooks{
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine(desc);
+                       // Console.WriteLine(desc);
                     }
 
                     //try
@@ -135,7 +138,7 @@ public class ExtractorBooks{
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine(e);
+                      //  Console.WriteLine(e);
                     }
 
                     try
@@ -150,19 +153,38 @@ public class ExtractorBooks{
                                 .Replace(" г.", "")
                                 .Trim());
                             book.PublisherYear = publishingYear;
-                            Console.WriteLine(publishingYear);
                         }
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine(e);   
+                        //Console.WriteLine(e);   
                     }
 
+                    try
+                    {
+                        var tags = document.QuerySelectorAll("span.thermo-item");//GetElementsByTagName("span");
+                        for (int tagn = 0; tagn < tags.Length; tagn++)
+                        {
+                            var qrmb = tags[tagn].TextContent.Replace("/", "");
+                            if (tagn != tags.Length-1)
+                                breadcrqmbs += qrmb + "/";
+                            else
+                                breadcrqmbs += qrmb;
+                        }
+
+                        book.Breadcrqmbs = breadcrqmbs;
+                    }
+                    catch (Exception e)
+                    {
+                        // Console.WriteLine(e);\
+                    }
                     book.SiteBookId = i.ToString();
                     book.ParsingDate = DateTime.UtcNow;
                     books.Add(book);
                     timer.Stop();
-                    Console.WriteLine("Book was processed for "+timer.ElapsedMilliseconds+" ms");
+                    //Console.WriteLine("Book was processed for "+timer.ElapsedMilliseconds+" ms");
+                    if(books.Count%100 == 0)
+                        Console.WriteLine($"Got {books.Count} books in thread since {startId} to {endId}");
                 }
             }
             catch (Exception ex) { 
@@ -178,8 +200,6 @@ public class ExtractorBooks{
         File.WriteAllText(path, json, Encoding.UTF8);
         Console.WriteLine("Books writed to json, count " + books.Count);
         File.WriteAllText(path + "Count", Convert.ToString(books.Count));
-        
-        Console.WriteLine($"Count without genre: {books.Count(b => b.Genre is null)}");
     }
 
     private string GetValue(IHtmlCollection<IElement> collection)
@@ -196,17 +216,21 @@ public class ExtractorBooks{
         return null;
     }
 
-    public async Task Parse(string URL, int startId, int endId)
+    public async Task Parse((string URL, int startId, int endId) valueTuple)
     {
-        List<Book>books = ParseBooksInfo("https://www.labirint.ru/books/", startId, endId);
-        WriteToJSON($"Labirint-{startId}To{endId}_{DateTime.Now.ToShortDateString()}.json",books);
+        var timer = Stopwatch.StartNew();
+       // Console.WriteLine($"Task since {valueTuple.startId} to {valueTuple.endId} was started");
+        List<Book>books = ParseBooksInfo("https://www.labirint.ru/books/", valueTuple.startId, valueTuple.endId);
+        //WriteToJSON($"Labirint-{valueTuple.startId}To{valueTuple.endId}_{DateTime.Now.ToShortDateString()}.json",books);
         await AddToDatabase(books);
-        Console.WriteLine($"Task since {startId} to {endId} was finished");
+        timer.Stop();
+        Console.WriteLine($"Task since {valueTuple.startId} to {valueTuple.endId} was finished for {timer.ElapsedMilliseconds/1000} s");
+        
+        
     }
 
     public async Task AddToDatabase(List<Book> batch)
     {
-        await _context.Books.AddRangeAsync(batch);
-        await _context.SaveChangesAsync();
+        await _service.AddRangeAsync(batch);
     }
 }
