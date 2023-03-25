@@ -27,11 +27,6 @@ namespace ExtractorProject.Extractors.Models
         public string? Description { get; set; }
         
         /// <summary>
-        /// Цена книги
-        /// </summary>
-        public int? Price { get; set; }
-        
-        /// <summary>
         /// Ссылка на книгу
         /// </summary>
         public string? SourceName { get; set; }
