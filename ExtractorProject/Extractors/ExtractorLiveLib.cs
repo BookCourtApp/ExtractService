@@ -1,6 +1,6 @@
-using ExtractorService.ExtractorProject.Extractors.Entity;
+using ExtractorProject.Extractors.Entity;
 
-namespace ExtractorService.ExtractorProject.Extractors
+namespace ExtractorProject.Extractors
 {
     public class ExtractorLiveLib<T> : AbstractExtractor, IExtractor<T>
     {

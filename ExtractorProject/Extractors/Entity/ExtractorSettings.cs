@@ -1,5 +1,5 @@
 
-namespace ExtractorService.ExtractorProject.Extractors.Entity
+namespace ExtractorProject.Extractors.Entity
 {
     /// <summary>
     /// Сущность для хранения настроек парсера

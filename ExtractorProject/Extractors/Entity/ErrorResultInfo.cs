@@ -1,6 +1,6 @@
-using ExtractorService.ExtractorProject.Extractors.Models;
+using ExtractorProject.Extractors.Models;
 
-namespace ExtractorService.ExtractorProject.Extractors.Entity
+namespace ExtractorProject.Extractors.Entity
 {
     /// <summary>
     /// Сущность для хранения информации об ошибке
