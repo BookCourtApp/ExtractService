@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Diagnostics;
 using System.Text;
-using System.Threading.Tasks;
-using System.Text.Json;
-using System.Threading.Channels;
 using AngleSharp;
 using AngleSharp.Dom;
 using BookParser;
 using Newtonsoft.Json;
-using AngleSharp.Html.Parser;
-using System.Linq.Expressions;
 
-namespace Parser;
+namespace LabirintExtractor;
+
 public class ExtractorBooks{
 
     public static IDocument GetDocument(string url)
@@ -27,6 +21,7 @@ public class ExtractorBooks{
         List<Book> books = new List<Book>();
         for (int i = startId; i <= endId; i++)
         {
+            var timer = Stopwatch.StartNew();
             try
             {
                 string name = "";
@@ -158,6 +153,8 @@ public class ExtractorBooks{
                     book.LabirintBookId = i;
                     book.ParsingDate = DateTime.UtcNow;
                     books.Add(book);
+                    timer.Stop();
+                    Console.WriteLine("Book was processed for "+timer.ElapsedMilliseconds+" ms");
                 }
             }
             catch (Exception ex) { 
@@ -173,6 +170,8 @@ public class ExtractorBooks{
         File.WriteAllText(path, json, Encoding.UTF8);
         Console.WriteLine("Books writed to json, count " + books.Count);
         File.WriteAllText(path + "Count", Convert.ToString(books.Count));
+        
+        Console.WriteLine($"Count without genre: {books.Count(b => b.Genre is null)}");
     }
 
     private string GetValue(IHtmlCollection<IElement> collection)
@@ -191,8 +190,12 @@ public class ExtractorBooks{
 
     public void Parse(string URL, int startPage, int endPage)
     {
-        List<Book>books = ParseBooksInfo("https://www.labirint.ru/books/", 848248, 848250);
+        List<Book>books = ParseBooksInfo("https://www.labirint.ru/books/", startPage, endPage);
         WriteToJSON("Labirint_demochka.json",books);
     }
 
+    public void AddToDatabase(List<Book> batch)
+    {
+        
+    }
 }

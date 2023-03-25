@@ -8,10 +8,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Include="C:\Users\denst\source\repos\LabirintExtractor\ExtractorBooks.cs" Link="ExtractorBooks.cs" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="AngleSharp" Version="1.0.1" />
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3-beta1" />
     </ItemGroup>
