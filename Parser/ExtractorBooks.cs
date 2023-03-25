@@ -199,8 +199,9 @@ public class ExtractorBooks{
     public async Task Parse(string URL, int startId, int endId)
     {
         List<Book>books = ParseBooksInfo("https://www.labirint.ru/books/", startId, endId);
-        WriteToJSON($"Labirint-{startId}To{endId}_{DateTime.Now}.json",books);
+        WriteToJSON($"Labirint-{startId}To{endId}_{DateTime.Now.ToShortDateString()}.json",books);
         await AddToDatabase(books);
+        Console.WriteLine($"Task since {startId} to {endId} was finished");
     }
 
     public async Task AddToDatabase(List<Book> batch)
