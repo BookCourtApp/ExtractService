@@ -14,6 +14,8 @@ public class BookService
 
     public async Task AddRange(List<Book> books)
     {
-        books.Where(b1 => _context.Books.FirstOrDefault(b2 => b1.SiteBookId == b2.SiteBookId))
+        var notExistingBooks = books.Where(b1 => _context.Books.FirstOrDefault(b2 => b1.SiteBookId == b2.SiteBookId) is null);
+        await _context.Books.AddRangeAsync(notExistingBooks);
+        await _context.SaveChangesAsync();
     }
 }
