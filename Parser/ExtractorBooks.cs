@@ -155,6 +155,7 @@ public class ExtractorBooks{
                         Console.WriteLine(e);   
                     }
 
+                    book.LabirintBookId = i;
                     book.ParsingDate = DateTime.UtcNow;
                     books.Add(book);
                 }

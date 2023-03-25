@@ -8,6 +8,8 @@ public class Book
 
     public Guid Id { get; set; }
 
+    public int LabirintBookId { get; set; } 
+
     public string Name { get; set; }
 
     public string Author { get; set; }
