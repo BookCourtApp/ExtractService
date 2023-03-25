@@ -1,6 +1,6 @@
-using ExtractorService.ExtractorProject.Extractors.Entity;
+using Core.Object;
 
-namespace ExtractorService.ExtractorProject.Extractors
+namespace Core
 {
     /// <summary>
     /// Интерфейс, описывающий реализацию парсеров 
