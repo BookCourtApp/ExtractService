@@ -14,47 +14,47 @@ namespace ExtractorProject.Extractors.Models
         /// <summary>
         /// Имя книги
         /// </summary>
-        public string Name { get; set; }
+        public string? Name { get; set; }
         
         /// <summary>
         /// Автор книги
         /// </summary>
-        public string Author { get; set; }
+        public string? Author { get; set; }
         
         /// <summary>
         /// Описание книги
         /// </summary>
-        public string Description { get; set; }
+        public string? Description { get; set; }
         
         /// <summary>
         /// Цена книги
         /// </summary>
-        public int Price { get; set; }
+        public int? Price { get; set; }
         
         /// <summary>
         /// Ссылка на книгу
         /// </summary>
-        public string SourceName { get; set; }
+        public string? SourceName { get; set; }
         
         /// <summary>
         /// Изображение обложки книги 
         /// </summary>
-        public string Image { get; set; }
+        public string? Image { get; set; }
         
         /// <summary>
         /// Жанр книги
         /// </summary>
-        public string Genre { get; set; }
+        public string? Genre { get; set; }
         
         /// <summary>
         /// Количество страниц книги
         /// </summary>
-        public int NumberOfPages { get; set; }
+        public int? NumberOfPages { get; set; }
         
         /// <summary>
         /// Isbn номер книги 
         /// </summary>
-        public string ISBN { get; set; }
+        public string? ISBN { get; set; }
         
         /// <summary>
         /// Дата парсинга книги
@@ -64,12 +64,12 @@ namespace ExtractorProject.Extractors.Models
         /// <summary>
         /// Год выпуска книги
         /// </summary>
-        public int PublisherYear { get; set; }
+        public int? PublisherYear { get; set; }
         
         /// <summary>
         /// id книги на сайте(артикль?)
         /// </summary>
-        public string SiteBookId { get; set; }
+        public string? SiteBookId { get; set; }
 
         /// <summary>
         ///  Хлебные крошки,
@@ -80,6 +80,6 @@ namespace ExtractorProject.Extractors.Models
         ///
         ///В поле Breadcrqmbs я запишу их в формате "Книги/Нехудожественная литература/..."
         /// </summary>
-        public string Breadcrqmbs { get; set; }
+        public string? Breadcrqmbs { get; set; }
     }
 }

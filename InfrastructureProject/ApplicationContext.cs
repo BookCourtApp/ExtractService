@@ -19,11 +19,10 @@ public class ApplicationContext : DbContext
     /// </summary>
     public DbSet<Error> Errors{ get; set; }
     
-    // /// <summary>
-    // /// Коллекция дата сетов результатов экстрактора
-    // /// </summary>
-    // /// 
-     public DbSet<ExtractorResult> ExtractorResults { get; set; }
+    /// <summary>
+    /// Коллекция дата сетов результатов экстрактора
+    /// </summary>
+    public DbSet<ExtractorResult> ExtractorResults { get; set; }
     
     /// <summary>
     /// .cotr
