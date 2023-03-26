@@ -21,13 +21,13 @@ while (!isEnd)
     {
         timer.Restart();
         Console.WriteLine("Введи первую границу id-шников для парсинга");
-        int start = Console.Read();
+        int start = Convert.ToInt32(Console.ReadLine());
         Console.WriteLine("Введи вторую границу id-шников для парсинга");
-        int end = Console.Read();
-        ; //100_000;
-        
+        int end = Convert.ToInt32(Console.ReadLine());
+        //100_000;
+
         Console.WriteLine("Введи количество id-шников для одного батча");
-        int batch = 1;
+        int batch = Convert.ToInt32(Console.ReadLine());
         ; //1000;
         int countIterations = end - start + 1;
         int countBatches = countIterations % batch == 0 ? countIterations / batch : countIterations / batch + 1;
