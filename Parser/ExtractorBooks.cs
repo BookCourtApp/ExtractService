@@ -217,23 +217,37 @@ public class ExtractorBooks{
 
     public async Task Parse((string URL, int startId, int endId) valueTuple)
     {
-        var timer = Stopwatch.StartNew();
-        //Console.WriteLine($"Task since {valueTuple.startId} to {valueTuple.endId} was started");
-        List<Book>books = ParseBooksInfo("https://www.labirint.ru/books/", valueTuple.startId, valueTuple.endId);
-        //WriteToJSON($"Labirint-{valueTuple.startId}To{valueTuple.endId}_{DateTime.Now.ToShortDateString()}.json",books);
-        await AddToDatabase(books);
-        timer.Stop();
-        
-        Console.WriteLine($"------------------------------------------------\n" +
-                          $"Task since {valueTuple.startId} to {valueTuple.endId} was finished for {timer.ElapsedMilliseconds/1000} seconds\n" +
-                          $"Parsed {books.Count} books\n" +
-                          $"-------------------------------------------------");
-        
-        
+        List<Book> books = new List<Book>();
+        try
+        {
+            var timer = Stopwatch.StartNew();
+            //Console.WriteLine($"Task since {valueTuple.startId} to {valueTuple.endId} was started");
+            books = ParseBooksInfo("https://www.labirint.ru/books/", valueTuple.startId, valueTuple.endId);
+            //WriteToJSON($"Labirint-{valueTuple.startId}To{valueTuple.endId}_{DateTime.Now.ToShortDateString()}.json",books);
+            await AddToDatabase(books);
+            timer.Stop();
+
+            Console.WriteLine($"------------------------------------------------\n" +
+                              $"Task since {valueTuple.startId} to {valueTuple.endId} was finished for {timer.ElapsedMilliseconds / 1000} seconds\n" +
+                              $"Parsed {books.Count} books\n" +
+                              $"-------------------------------------------------");
+        }
+        catch (Exception ex)
+        {
+            string path = $"Labirint-{valueTuple.startId}To{valueTuple.endId}_{DateTime.Now.ToShortDateString()}.json";
+            WriteToJSON(path,books);
+            Console.WriteLine($"------------------------------------------------\n" +
+                              $"Task since {valueTuple.startId} to {valueTuple.endId} was finished with error: {ex.Message}\n" +
+                              $"Parsed {books.Count} books\n" +
+                              $"Books was saved to {path}" +
+                              $"-------------------------------------------------");
+        }
+
     }
 
     public async Task AddToDatabase(List<Book> batch)
     {
+        
         await _service.AddRangeAsync(batch);
     }
 }

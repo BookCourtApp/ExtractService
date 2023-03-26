@@ -1,22 +1,25 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using System.Diagnostics;
 using Core.Database;
 using InfrastructureProject;
 using LabirintExtractor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
-optionsBuilder.UseSqlite("Data Source=labirint.db");
-ApplicationContext context = new ApplicationContext(optionsBuilder.Options);
-BookService service = new BookService(context);
+//var optionsBuilder = new DbContextOptionsBuilder<ApplicationContext>();
+//optionsBuilder.UseSqlite("Data Source=labirint.db");
+//ApplicationContext context = new ApplicationContext(optionsBuilder.Options);
+BookService service = new BookService(new DbContextFactory(),"labirint.db");
 ExtractorBooks parser = new ExtractorBooks(service);
 
 bool isEnd = false;
 while (!isEnd)
 {
+    Stopwatch timer = Stopwatch.StartNew();
     try
     {
+        timer.Restart();
         Console.WriteLine("Введи первую границу id-шников для парсинга");
         int start = Int32.Parse(Console.ReadLine());
         Console.WriteLine("Введи вторую границу id-шников для парсинга");
@@ -41,7 +44,11 @@ while (!isEnd)
 
         Console.WriteLine($"Начался экстрактинг с {start} по {end} id.");
         Parallel.ForEach(periods, tuple => parser.Parse(tuple));
-        Console.WriteLine($"{start} по {end} id спаршены.");
+        
+        timer.Stop();
+        Console.WriteLine($"[{DateTime.Now}]: {start} по {end} id спаршены.\n" +
+                          $"Парсинг занял {timer.ElapsedMilliseconds/1000} s");
+        
 
         Console.WriteLine("Если хочешь закончить, введи \"0\"; Если продолжить - любую другую строку");
         var isEndStr = Console.ReadLine();
@@ -75,6 +82,6 @@ while (!isEnd)
 //
 // Parallel.ForEach(periods, tuple =>parser.Parse(tuple));
 
-context.Dispose();
+//context.Dispose();
 Console.WriteLine("FinishWork");
 Console.ReadLine();

@@ -7,17 +7,21 @@ namespace Core.Database;
 
 public class BookService
 {
-    private readonly ApplicationContext _context;
+    private readonly DbContextFactory _contextFactory;
+    private readonly string _dbPath;
 
-    public BookService(ApplicationContext context)
+    public BookService(DbContextFactory contextFactory, string dbPath)
     {
-        _context = context;
+        _contextFactory = contextFactory;
+        _dbPath = dbPath;
     }
 
     public async Task AddRangeAsync(List<Book> books)
     {
-        var notExistingBooks = await books.AsyncParallelWhereOrderedByCompletion(async b1 => await _context.Books.FirstOrDefaultAsync(b2 => b1.SiteBookId == b2.SiteBookId) is null);
-        await _context.Books.AddRangeAsync(notExistingBooks);
-        await _context.SaveChangesAsync();
+        var context = _contextFactory.Create(_dbPath);
+        var notExistingBooks = await books.AsyncParallelWhereOrderedByCompletion(async b1 => await context.Books.FirstOrDefaultAsync(b2 => b1.SiteBookId == b2.SiteBookId) is null);
+        await context.Books.AddRangeAsync(notExistingBooks);
+        await context.SaveChangesAsync();
+        await context.DisposeAsync();
     }
 }
