@@ -21,9 +21,9 @@ while (!isEnd)
     {
         timer.Restart();
         Console.WriteLine("Введи первую границу id-шников для парсинга");
-        int start = 936707;
+        int start = Console.Read();
         Console.WriteLine("Введи вторую границу id-шников для парсинга");
-        int end = 936707;
+        int end = Console.Read();
         ; //100_000;
         
         Console.WriteLine("Введи количество id-шников для одного батча");
