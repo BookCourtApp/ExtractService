@@ -46,16 +46,17 @@ public class ExtractorBooks{
                 string tag = "";
                 try
                 {
-                    tag = document.QuerySelector("span.thermo-item").GetElementsByTagName("span")[0].TextContent;
+                    var urlImage = document.Url;
+                    if (!urlImage.Contains("books")) 
+                        continue;
+                    //tag = document.QuerySelector("span.thermo-item").GetElementsByTagName("span")[0].TextContent;
                     //Console.WriteLine(tag);
                 }
                 catch (Exception e)
                 {
                    // Console.WriteLine(e);
                 }
-                if (tag.Contains("Книги"))
-                {
-                    Book book = new Book();
+                Book book = new Book();
                     book.SourceName = url + Convert.ToString(i);
                     try
                     {
@@ -112,18 +113,17 @@ public class ExtractorBooks{
                     {
                        // Console.WriteLine(desc);
                     }
-
-                    //try
-                    //{
-                    //    var divimage = document.GetElementsByClassName("book-img-cover")[0];
-                    //    image = divimage.Attributes["src"].Value;
-                    //    Console.WriteLine(image);
-                    //}
-                    //catch (Exception e)
-                    //{
-                    //    Console.WriteLine(e);
-                    //}
-                    // Возвращает пустую обложку
+                    //
+                    // try                 IMAGE ПРОГРУЖАЕТСЯ ЧУТЬ ПОЗЖЕ, НЕ ПОЛУЧИЛОСЬ ПОУЛУЧИТЬ
+                    // {
+                    //     // var divimage = document.GetElementById("product-image").Children[0];
+                    //     // image = divimage.Attributes["src"].Value;
+                    //     // Console.WriteLine(image);
+                    // }
+                    // catch (Exception e)
+                    // {
+                    //     Console.WriteLine(e);
+                    // }
 
                     try
                     {
@@ -185,7 +185,6 @@ public class ExtractorBooks{
                     //Console.WriteLine("Book was processed for "+timer.ElapsedMilliseconds+" ms");
                     if(books.Count%100 == 0)
                         Console.WriteLine($"Got {books.Count} books in thread since {startId} to {endId}");
-                }
             }
             catch (Exception ex) { 
                 Console.WriteLine(ex); 
@@ -219,12 +218,16 @@ public class ExtractorBooks{
     public async Task Parse((string URL, int startId, int endId) valueTuple)
     {
         var timer = Stopwatch.StartNew();
-       // Console.WriteLine($"Task since {valueTuple.startId} to {valueTuple.endId} was started");
+        //Console.WriteLine($"Task since {valueTuple.startId} to {valueTuple.endId} was started");
         List<Book>books = ParseBooksInfo("https://www.labirint.ru/books/", valueTuple.startId, valueTuple.endId);
         //WriteToJSON($"Labirint-{valueTuple.startId}To{valueTuple.endId}_{DateTime.Now.ToShortDateString()}.json",books);
         await AddToDatabase(books);
         timer.Stop();
-        Console.WriteLine($"Task since {valueTuple.startId} to {valueTuple.endId} was finished for {timer.ElapsedMilliseconds/1000} s");
+        
+        Console.WriteLine($"------------------------------------------------\n" +
+                          $"Task since {valueTuple.startId} to {valueTuple.endId} was finished for {timer.ElapsedMilliseconds/1000} seconds\n" +
+                          $"Parsed {books.Count} books\n" +
+                          $"-------------------------------------------------");
         
         
     }
