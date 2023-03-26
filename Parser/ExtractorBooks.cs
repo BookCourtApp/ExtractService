@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Net;
 using System.Text;
 using AngleSharp;
 using AngleSharp.Dom;
@@ -46,9 +47,10 @@ public class ExtractorBooks{
                 string tag = "";
                 try
                 {
-                    var urlImage = document.Url;
-                    if (!urlImage.Contains("books")) 
+                    var documentUrl = document.Url;
+                    if (!documentUrl.Contains("books") || document.TextContent.Contains("Страница, которую вы ищете, затерялась в Лабиринте"))//300025 
                         continue;
+                    
                     //tag = document.QuerySelector("span.thermo-item").GetElementsByTagName("span")[0].TextContent;
                     //Console.WriteLine(tag);
                 }
