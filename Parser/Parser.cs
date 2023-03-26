@@ -127,7 +127,7 @@ public class ExtractorBook24
 
 
                 //var PricE = BookInfo.GetElementsByClassName("app-price product-sidebar-price__price")[0].TextContent.Replace(" ₽", "").Replace(" ", "");
-                Price = Int32.Parse(BookInfo.GetElementsByClassName("app-price product-sidebar-price__price")[0].TextContent.Replace(" ₽", "").Replace(" ", ""));
+                Price = Int32.Parse(BookInfo.GetElementsByClassName("app-price product-sidebar-price__price")[0].TextContent.Replace(" ₽", "").Replace(" ", "").Replace(" ", ""));
 
                 //var sel = BookInfo.GetElementsByClassName("product-detail-page__purchased-text")[0].TextContent.Split(' ')[2];
                 Sales = Int32.Parse(BookInfo.GetElementsByClassName("product-detail-page__purchased-text")[0].TextContent.Split(' ')[2]);
