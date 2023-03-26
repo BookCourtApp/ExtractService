@@ -48,7 +48,7 @@ public class ExtractorBooks{
                 try
                 {
                     var documentUrl = document.Url;
-                    if (!documentUrl.Contains("books") || document.TextContent.Contains("Страница, которую вы ищете, затерялась в Лабиринте"))//300025 
+                    if (!documentUrl.Contains("books") || document.StatusCode == HttpStatusCode.NotFound)//300025 
                         continue;
                     
                     //tag = document.QuerySelector("span.thermo-item").GetElementsByTagName("span")[0].TextContent;
