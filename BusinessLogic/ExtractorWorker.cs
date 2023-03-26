@@ -17,6 +17,11 @@ public class ExtractorWorker : IExtractorWorker
     private IExtractorFactory _factory;
     private readonly ApplicationContext _context;
 
+    /// <summary>
+    /// Метод который запускает экстракцию
+    /// </summary>
+    /// <param name="settings">Настройки парсера</param>
+    /// <typeparam name="T">тип данных которые парсятся</typeparam>
     public async Task ExtractDataAsync<T>(ExtractorSettings settings)
     {
         ExtractorResult result = new ExtractorResult();
@@ -33,11 +38,18 @@ public class ExtractorWorker : IExtractorWorker
             {
 
                 result.Status = ExtractorStatus.Parsing;
+                
+                // получаем батч с экстрактора 
                 ExtractBatchResult<T> extractorBatch = await extractor.ExtractNextBatch();
+                
+                // сохраняем батч и позволяем EF самому понять в какую таблицу записать спаршенную инфу 
                 await _context.AddRangeAsync(extractorBatch.Buffer);
+                
                 result.Errors.AddRange(extractorBatch.Errors);
                 result.ExtractorDataCount += extractorBatch.ExtratctorDataCount;
+                
                 _context.ExtractorResults.Update(result);
+                
                 await _context.SaveChangesAsync();
             }
             catch (Exception ex)
