@@ -62,7 +62,7 @@ public class ExtractorBooks{
                     book.SourceName = url + Convert.ToString(i);
                     try
                     {
-                        name = document.QuerySelector("div.prodtitle").GetElementsByTagName("h1")[0].TextContent;
+                        name = document.QuerySelector("div.prodtitle").GetElementsByTagName("h1")[0].TextContent.Split(":").Last();
                         book.Name = name;
                     }
                     catch (Exception e)
