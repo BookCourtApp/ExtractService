@@ -8,7 +8,7 @@ namespace ExtractorService.Parser
 {
     class Program
     {
-        public static async Task Main(){
+        public static void Main(){
             try{
                 BookService service = new BookService(new DbContextFactory(), "book24.db"); 
                 ExtractorBook24 Parser= new ExtractorBook24(service);
@@ -31,7 +31,7 @@ namespace ExtractorService.Parser
                         ConfigToStart.Add((StartFrom, end));
                     }
                 }
-                Parallel.ForEach(ConfigToStart, OneConfig => Parser.InitParsing(OneConfig)); 
+                Parallel.ForEach(ConfigToStart, OneConfig =>  Parser.InitParsing(OneConfig)); 
                 Console.WriteLine("end");
             }
             catch (Exception ex){

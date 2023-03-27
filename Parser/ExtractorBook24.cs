@@ -28,98 +28,107 @@ namespace ExtractorService.Parser
             _service = service; 
         }
         public async Task InitParsing((int StartPage, int LastPage) ConfigToStart){
+            Console.WriteLine($"Start thread {ConfigToStart.StartPage} to {ConfigToStart.LastPage}");
             await Parse(ConfigToStart);
+            Console.WriteLine($"End thread {ConfigToStart.StartPage} to {ConfigToStart.LastPage}");
         }
         private /*static*/ async Task Parse((int StartPage, int LastPage) ConfigToStart){
 
             //Для логирования и контроля старта/конца парсинга
-            Logger Logging = new Logger($"Log_book24_{DateTime.Now.ToString("MMMM d, yyyy").Replace(" ", "_").Replace(",","")}");
-            int NumberOfStartingPage = ConfigToStart.StartPage;
-            int NumberOfLastPage = ConfigToStart.LastPage;
-            int PageCounter = NumberOfStartingPage;
-            int BookCounter = 0;
-            string CurrentPageUrl; 
-            Logging.Log($"Запуск: Стартовая страница:{NumberOfStartingPage}, Конечная страница:{NumberOfLastPage}");
+            try
+            {
+                Logger Logging = new Logger($"Log_book24_{DateTime.Now.ToString("MMMM d, yyyy").Replace(" ", "_").Replace(",", "")}");
+                int NumberOfStartingPage = ConfigToStart.StartPage;
+                int NumberOfLastPage = ConfigToStart.LastPage;
+                int PageCounter = NumberOfStartingPage;
+                int BookCounter = 0;
+                string CurrentPageUrl;
+                Logging.Log($"Запуск: Стартовая страница:{NumberOfStartingPage}, Конечная страница:{NumberOfLastPage}");
 
-            //Для накопления книг в batch
-            List<Book> Batch;
+                //Для накопления книг в batch
+                List<Book> Batch;
 
-            var address = "https://book24.ru/catalog/page-";
-            while(PageCounter <= NumberOfLastPage){
-                if (!await IsPageFound(CurrentPageUrl = $"{address}{PageCounter++}")){
-                    Logging.Error($"Страница не найдена: PageURL:{CurrentPageUrl}");
-                    Console.WriteLine($"Страница не найдена: Page:{PageCounter}, PageURL:{CurrentPageUrl}");
-                    continue;
-                }
+                var address = "https://book24.ru/catalog/page-";
+                while (PageCounter <= NumberOfLastPage) {
+                    CurrentPageUrl = $"{address}{PageCounter++}";
+                    //if (!await IsPageFound(CurrentPageUrl = $"{address}{PageCounter++}")) {
+                    //    Logging.Error($"Страница не найдена: PageURL:{CurrentPageUrl}");
+                    //    Console.WriteLine($"Страница не найдена: Page:{PageCounter}, PageURL:{CurrentPageUrl}");
+                    //    continue;
+                    //}
 
-                Console.WriteLine($"Parsing page: {CurrentPageUrl}");
-                var document = GetDocument(CurrentPageUrl);
-                var BookPages = document
-                    .GetElementsByClassName("product-list__item");
+                    Console.WriteLine($"Parsing page: {CurrentPageUrl}");
+                    var document = GetDocument(CurrentPageUrl);
+                    var BookPages = document
+                        .GetElementsByClassName("product-list__item");
 
-                if ((BookPages.Length == 0))
-                {
-                    Console.WriteLine($"Нет книг на странице");
-                    Logging.Error($"Нет книг на странице: PageURL:{CurrentPageUrl}");
-                    continue;
-                }
-
-                BookCounter = 0; //зануляем счетчик спарешнных книг со странички
-                Batch = new List<Book>(); 
-                foreach(var BookPage in BookPages){
-                    //Логирование
-                    Console.Clear();
-                    Console.WriteLine($"Парсинг от {NumberOfStartingPage} страницы до {NumberOfLastPage}");
-                    Console.WriteLine($"Page#:{PageCounter-1}");
-                    Console.WriteLine($"Book#:{++BookCounter}");
-
-                    var BookPageUrl = "https://book24.ru" + BookPage
-                                .GetElementsByClassName("product-card__image-holder")[0]
-                                .Children[0]
-                                .Attributes["href"]
-                                .Value;
-
-                    document = GetDocument(BookPageUrl);
-                    if(document == null){
-                        Console.WriteLine("Книга не найдена");
-                        Logging.Error($"Не найдена книга: Page:{PageCounter-1}, Product:{BookCounter}, URL:{BookPageUrl}");
+                    if ((BookPages.Length == 0))
+                    {
+                        Console.WriteLine($"Нет книг на странице");
+                        Logging.Error($"Нет книг на странице: PageURL:{CurrentPageUrl}");
                         continue;
                     }
 
-                    if(!IsProductValid(document)){
-                        Console.WriteLine("Товар не является книгой");
-                        Logging.Error($"Товар не является книгой: Page:{PageCounter-1}, Product:{BookCounter}, URL:{BookPageUrl}");
-                        continue;
-                    }
+                    BookCounter = 0; //зануляем счетчик спарешнных книг со странички
+                    Batch = new List<Book>();
+                    foreach (var BookPage in BookPages) {
+                        //Логирование
+                        //Console.Clear();
+                        Console.WriteLine($"Парсинг от {NumberOfStartingPage} страницы до {NumberOfLastPage}");
+                        Console.WriteLine($"Page#:{PageCounter - 1}");
+                        Console.WriteLine($"Book#:{++BookCounter}");
 
-                    //Парсинг книги
-                    try{
-                        Book BookInfo = new Book{
-                            Name            = getBookName(document),
-                            Author          = getAuthor(document),
-                            Genre           = getGenre(document),
-                            Description     = getDescription(document),
-                            NumberOfPages   = getPages(document),
-                            Price           = getPrice(document),
-                            SourceName      = BookPageUrl,
-                            Image           = getImage(document),
-                            ParsingDate     = DateTime.UtcNow.ToUniversalTime(),
-                            ISBN            = getISBN(document),
-                            PublisherYear   = getYear(document),
-                            Breadcrqmbs     = getBreadcrumbs(document),
-                            SiteBookId      = getVendor(document),
-                            SourceUrl       = "book24"
-                        };
-                        Batch.Add(BookInfo);
+                        var BookPageUrl = "https://book24.ru" + BookPage
+                                    .GetElementsByClassName("product-card__image-holder")[0]
+                                    .Children[0]
+                                    .Attributes["href"]
+                                    .Value;
+
+                        document = GetDocument(BookPageUrl);
+                        if (document == null) {
+                            Console.WriteLine("Книга не найдена");
+                            Logging.Error($"Не найдена книга: Page:{PageCounter - 1}, Product:{BookCounter}, URL:{BookPageUrl}");
+                            continue;
+                        }
+
+                        if (!IsProductValid(document)) {
+                            Console.WriteLine("Товар не является книгой");
+                            Logging.Error($"Товар не является книгой: Page:{PageCounter - 1}, Product:{BookCounter}, URL:{BookPageUrl}");
+                            continue;
+                        }
+
+                        //Парсинг книги
+                        try {
+                            Book BookInfo = new Book {
+                                Name = getBookName(document),
+                                Author = getAuthor(document),
+                                Genre = getGenre(document),
+                                Description = getDescription(document),
+                                NumberOfPages = getPages(document),
+                                SourceName = BookPageUrl,
+                                Image = getImage(document),
+                                ParsingDate = DateTime.UtcNow.ToUniversalTime(),
+                                ISBN = getISBN(document),
+                                PublisherYear = getYear(document),
+                                Breadcrqmbs = getBreadcrumbs(document),
+                                SiteBookId = getVendor(document)
+                            };
+                            Batch.Add(BookInfo);
+                        }
+                        catch (Exception ex) {
+                            Console.WriteLine("Ошибка при парсинге книги: " + ex.Message);
+                            Logging.Error($"Ошибка при парсинге книги: Page:{PageCounter - 1}, Product:{BookCounter}, URL:{BookPageUrl}");
+                        }
                     }
-                    catch (Exception ex){
-                        Console.WriteLine("Ошибка при парсинге книги: " + ex.Message);
-                        Logging.Error($"Ошибка при парсинге книги: Page:{PageCounter-1}, Product:{BookCounter}, URL:{BookPageUrl}");
-                    }
+                    //WriteBatchToJson(Batch);
+                    await AddToDatabase(Batch);
                 }
-                //WriteBatchToJson(Batch);
-                await AddToDatabase(Batch);
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
         }
 
         public static bool IsProductValid(IDocument document){
@@ -296,26 +305,26 @@ namespace ExtractorService.Parser
             // Create the log file if it does not exist
             if (!File.Exists(logFilePath))
             {
-                using (StreamWriter streamWriter = File.CreateText(logFilePath))
-                {
-                    streamWriter.WriteLine($"{DateTime.UtcNow} : Log file created.");
-                }
+                //using (StreamWriter streamWriter = File.CreateText(logFilePath))
+                //{
+                //    streamWriter.WriteLine($"{DateTime.UtcNow} : Log file created.");
+                //}
             }
         }
 
         public void Log(string message)
         {
-            using (StreamWriter streamWriter = File.AppendText(logFilePath))
-            {
-                streamWriter.WriteLine($"{DateTime.UtcNow} Info: {message}");
-            }
+           // using (StreamWriter streamWriter = File.AppendText(logFilePath))
+           // {
+           //     streamWriter.WriteLine($"{DateTime.UtcNow} Info: {message}");
+           // }
         } 
         public void Error(string message)
         {
-            using (StreamWriter streamWriter = File.AppendText(logFilePath))
-            {
-                streamWriter.WriteLine($"{DateTime.UtcNow} Error: {message}");
-            }
+            //using (StreamWriter streamWriter = File.AppendText(logFilePath))
+           // {
+            //    streamWriter.WriteLine($"{DateTime.UtcNow} Error: {message}");
+            //}
         } 
     }
 
