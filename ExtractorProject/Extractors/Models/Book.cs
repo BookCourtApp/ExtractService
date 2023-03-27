@@ -1,5 +1,5 @@
 
-namespace ExtractorService.ExtractorProject.Extractors.Models
+namespace MyParser.Models
 {
     /// <summary>
     /// Модель для хранения информации о книге в бд. 
@@ -54,5 +54,24 @@ namespace ExtractorService.ExtractorProject.Extractors.Models
         /// Год выпуска книги
         /// </summary>
         public int PublisherYear { get; set; }
+        /// <summary>
+        ///  Хлебные крошки,
+        /// Есть крошки на сайте следующие 
+        /// Книги /  Нехудожественная литература /  Информационные технологии /  Информатика
+        ///
+        /// Парсятся они как отдельные элементы, получается массив этих крошек со значениями, например значение "Книги"
+        ///
+        ///В поле Breadcrqmbs я запишу их в формате "Книги/Нехудожественная литература/..."
+        /// </summary>
+        public string? Breadcrqmbs { get; set; }
+        /// <summary>
+        /// id книги на сайте(артикль?)
+        /// </summary>
+        public string? SiteBookId { get; set; }
+        /// <summary>
+        /// Имя сайта, с которого спаршена информация
+        /// </summary>
+        public string SourceUrl { get; set; }
+
     }
 }
