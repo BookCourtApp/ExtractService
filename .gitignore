@@ -4,3 +4,5 @@ bin/
 .vs/
 .config
 LogFiles/
+
+*.swp
