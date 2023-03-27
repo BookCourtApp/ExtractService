@@ -1,56 +1,76 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.Diagnostics.CodeAnalysis;
-
-namespace BookParser;
-
-public class Book
+namespace MyParser.Models
 {
-    public string Name { get; set; }
+    /// <summary>
+    /// Модель для хранения информации о книге в бд. 
+    /// </summary>
+    public class Book
+    {
+        /// <summary>
+        /// Id книги
+        /// </summary>
+        public Guid Id { get; set; }
+        /// <summary>
+        /// Имя книги
+        /// </summary>
+        public string Name { get; set; }
+        /// <summary>
+        /// Автор книги
+        /// </summary>
+        public string Author { get; set; }
+        /// <summary>
+        /// Описание книги
+        /// </summary>
+        public string Description { get; set; }
+        /// <summary>
+        /// Цена книги
+        /// </summary>
+        public int Price { get; set; }
+        /// <summary>
+        /// Ссылка на книгу
+        /// </summary>
+        public string SourceName { get; set; }
+        /// <summary>
+        /// Изображение обложки книги 
+        /// </summary>
+        public string Image { get; set; }
+        /// <summary>
+        /// Жанр книги
+        /// </summary>
+        public string Genre { get; set; }
+        /// <summary>
+        /// Количество страниц книги
+        /// </summary>
+        public int NumberOfPages { get; set; }
+        /// <summary>
+        /// Isbn номер книги 
+        /// </summary>
+        public string ISBN { get; set; }
+        /// <summary>
+        /// Дата парсинга книги
+        /// </summary>
+        public DateTime ParsingDate { get; set; }
+        /// <summary>
+        /// Год выпуска книги
+        /// </summary>
+        public int PublisherYear { get; set; }
+        /// <summary>
+        ///  Хлебные крошки,
+        /// Есть крошки на сайте следующие 
+        /// Книги /  Нехудожественная литература /  Информационные технологии /  Информатика
+        ///
+        /// Парсятся они как отдельные элементы, получается массив этих крошек со значениями, например значение "Книги"
+        ///
+        ///В поле Breadcrqmbs я запишу их в формате "Книги/Нехудожественная литература/..."
+        /// </summary>
+        public string? Breadcrqmbs { get; set; }
+        /// <summary>
+        /// id книги на сайте(артикль?)
+        /// </summary>
+        public string? SiteBookId { get; set; }
+        /// <summary>
+        /// Имя сайта, с которого спаршена информация
+        /// </summary>
+        public string SourceUrl { get; set; }
 
-    public string Author { get; set; }
-
-    public string Description { get; set; }
-
-    public int Price { get; set; }
-
-    public int Remainder { get; set; }
-
-    public string SourceName { get; set; }
-    
-    public string Image { get; set; }
-
-    public string NumberOfPages { get; set; }
-
-    public string Genre { get; set; }
-
-    public int NumberOfImages { get; set; }
-
-    public string CoverType { get; set; }
-
-    public string Language { get; set; }
-
-    public string ISBN { get; set; }
-
-    public string Publisher { get; set; }
-
-    public string PublisherYear { get; set; }
-
-    public string Series { get; set; }
-
-    public string AgeRestrictions { get; set; }
-
-    public string Format { get; set; }
-
-    public string Weight { get; set; }
-
-    public int Sales { get; set; }
-
-    public string Reviews { get; set; }
-
-    public string Rating { get; set; }
-
-    public string VendorCode { get; set; }
-
-    public DateTime ParsingDate { get; set; }
-
+    }
 }
