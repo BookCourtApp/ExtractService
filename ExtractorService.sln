@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -12,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InfrastructureProject", "In
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{5DE657C4-5FBC-4CD7-8325-2C107DD25199}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parser", "Parser\Parser.csproj", "{837AAA5D-7956-4C76-9EDA-3B4C330D288A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LabirintExtractor", "Parser\LabirintExtractor.csproj", "{EF0F4A1E-8E34-4C3A-94B4-E0B3685BDC21}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,10 +41,10 @@ Global
 		{5DE657C4-5FBC-4CD7-8325-2C107DD25199}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DE657C4-5FBC-4CD7-8325-2C107DD25199}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DE657C4-5FBC-4CD7-8325-2C107DD25199}.Release|Any CPU.Build.0 = Release|Any CPU
-		{837AAA5D-7956-4C76-9EDA-3B4C330D288A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{837AAA5D-7956-4C76-9EDA-3B4C330D288A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{837AAA5D-7956-4C76-9EDA-3B4C330D288A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{837AAA5D-7956-4C76-9EDA-3B4C330D288A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF0F4A1E-8E34-4C3A-94B4-E0B3685BDC21}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF0F4A1E-8E34-4C3A-94B4-E0B3685BDC21}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF0F4A1E-8E34-4C3A-94B4-E0B3685BDC21}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF0F4A1E-8E34-4C3A-94B4-E0B3685BDC21}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

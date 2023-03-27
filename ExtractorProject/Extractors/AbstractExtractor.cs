@@ -1,6 +1,6 @@
 using ExtractorProject.Extractors.Entity;
 
-namespace ExtractorService.ExtractorProject.Extractors
+namespace ExtractorProject.Extractors
 {
     /// <summary>
     /// Абстрактный базовый класс, который задает вектор разработки парсера.
