@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.IO;
 
 using Core.Database;
-using ExtractorService.ExtractorProject.Extractors.Models;
+using ExtractorProject.Extractors.Models;
 using InfrastructureProject;
 
 namespace ExtractorService.Parser
