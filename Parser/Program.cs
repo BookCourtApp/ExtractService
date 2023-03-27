@@ -20,7 +20,7 @@ while (!isEnd)
         int end = Convert.ToInt32(Console.ReadLine());
         //100_000;
 
-        Console.WriteLine("Введи количество страниц для одного батча:");
+        Console.WriteLine("Сколько поток берет страниц(Меньше число - больше потоков):");
         int batch = Convert.ToInt32(Console.ReadLine());
         ; //1000;
         int countIterations = end - start + 1;
