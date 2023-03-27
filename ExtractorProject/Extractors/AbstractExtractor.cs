@@ -1,4 +1,4 @@
-using ExtractorService.ExtractorProject.Extractors.Entity;
+using ExtractorProject.Extractors.Entity;
 
 namespace ExtractorService.ExtractorProject.Extractors
 {

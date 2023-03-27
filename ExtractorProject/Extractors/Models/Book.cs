@@ -1,5 +1,5 @@
 
-namespace MyParser.Models
+namespace ExtractorProject.Extractors.Models
 {
     /// <summary>
     /// Модель для хранения информации о книге в бд. 
