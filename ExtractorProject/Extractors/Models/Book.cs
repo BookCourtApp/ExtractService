@@ -25,7 +25,11 @@ namespace ExtractorProject.Extractors.Models
         /// Описание книги
         /// </summary>
         public string? Description { get; set; }
+<<<<<<< HEAD
 
+=======
+        
+>>>>>>> 21e9a4b6591dae6a0ffc6f4aca297bcf6b4f32e5
         /// <summary>
         /// Ссылка на книгу
         /// </summary>
@@ -76,5 +80,13 @@ namespace ExtractorProject.Extractors.Models
         ///В поле Breadcrqmbs я запишу их в формате "Книги/Нехудожественная литература/..."
         /// </summary>
         public string? Breadcrqmbs { get; set; }
+<<<<<<< HEAD
+=======
+
+        /// <summary>
+        /// url источника книг
+        /// </summary>
+        public string SourceUrl { get; set; }
+>>>>>>> 21e9a4b6591dae6a0ffc6f4aca297bcf6b4f32e5
     }
 }
