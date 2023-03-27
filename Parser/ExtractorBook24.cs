@@ -7,6 +7,12 @@ using System.Text.RegularExpressions;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.IO;
+using System.Diagnostics;
+using System.Net;
+using System.Text;
+using AngleSharp;
+using AngleSharp.Dom;
+
 
 using Core.Database;
 using ExtractorProject.Extractors.Models;
@@ -14,20 +20,22 @@ using InfrastructureProject;
 
 namespace ExtractorService.Parser
 {
-    class ParserBook24
+    class ExtractorBook24
     {
         private readonly BookService _service;
 
-        public ParserBook24(BookService service){
+        public ExtractorBook24(BookService service){
             _service = service; 
         }
-
-        public static async Task Parse(int StartPage, int LastPage){
+        public async Task InitParsing((int StartPage, int LastPage) ConfigToStart){
+            await Parse(ConfigToStart);
+        }
+        private /*static*/ async Task Parse((int StartPage, int LastPage) ConfigToStart){
 
             //Для логирования и контроля старта/конца парсинга
             Logger Logging = new Logger($"Log_book24_{DateTime.Now.ToString("MMMM d, yyyy").Replace(" ", "_").Replace(",","")}");
-            int NumberOfStartingPage = 1;
-            int NumberOfLastPage = 2;
+            int NumberOfStartingPage = ConfigToStart.StartPage;
+            int NumberOfLastPage = ConfigToStart.LastPage;
             int PageCounter = NumberOfStartingPage;
             int BookCounter = 0;
             string CurrentPageUrl; 
@@ -109,7 +117,8 @@ namespace ExtractorService.Parser
                         Logging.Error($"Ошибка при парсинге книги: Page:{PageCounter-1}, Product:{BookCounter}, URL:{BookPageUrl}");
                     }
                 }
-                WriteBatchToJson(Batch);
+                //WriteBatchToJson(Batch);
+                await AddToDatabase(Batch);
             }
         }
 
@@ -272,6 +281,9 @@ namespace ExtractorService.Parser
             }
             return "";
         }
+        public async Task AddToDatabase(List<Book> Batch){
+            await _service.AddRangeAsync(Batch);
+        }
 
 
     }
@@ -306,5 +318,6 @@ namespace ExtractorService.Parser
             }
         } 
     }
+
 
 }
