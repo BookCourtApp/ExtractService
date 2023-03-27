@@ -76,5 +76,10 @@ namespace ExtractorProject.Extractors.Models
         ///В поле Breadcrqmbs я запишу их в формате "Книги/Нехудожественная литература/..."
         /// </summary>
         public string? Breadcrqmbs { get; set; }
+
+        /// <summary>
+        /// url источника книг
+        /// </summary>
+        public string SourceUrl { get; set; }
     }
 }
