@@ -111,7 +111,8 @@ namespace ExtractorService.Parser
                                 ISBN = getISBN(document),
                                 PublisherYear = getYear(document),
                                 Breadcrqmbs = getBreadcrumbs(document),
-                                SiteBookId = getVendor(document)
+                                SiteBookId = getVendor(document),
+                                SourceUrl = "https://book24.ru"
                             };
                             Batch.Add(BookInfo);
                         }
