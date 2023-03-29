@@ -160,10 +160,10 @@ namespace ExtractorService.Parser
                 //requestMessage.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:58.0) Gecko/20100101 Firefox/58.0");
                 var AngleSharpUrl = new Url(url);
                 var request = DocumentRequest.Get(AngleSharpUrl);
-                request.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3";
+                request.Headers["User-Agent"] = "Mozilla/5.0 (compatible; ABrowse 0.4; Syllable)";
                 request.Headers["Accept"] = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
                 request.Headers["Accept-Language"] = "en-US,en;q=0.9";
-                request.Headers["Referer"] = "https://www.google.com/";
+                request.Headers["Referer"] = "http://avanti:farmaapteka25@91.243.188.184:7951";
                 request.Headers["Connection"] = "keep-alive";
                 return context.OpenAsync(request).Result;
             }
