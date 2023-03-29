@@ -1,15 +1,20 @@
-using Core.Object;
 
-namespace ExtractorProject.Extractors
+
+using AngleSharp.Dom;
+using Core.Models;
+
+namespace Core.Extractor
 {
     /// <summary>
-    /// Абстрактный базовый класс, который задает вектор разработки парсера.
+    /// Абстрактный базовый класс парсеров книг
     /// </summary>
-    public abstract class AbstractExtractor<RawDataT, ExtractorBooksDto>
+    public abstract class BookExtractor : IExtractor<IDocument, Book>
     {
-        abstract public RawDataT ExtractData();
+        /// <inheritdoc />
+        abstract public IDocument GetRawData(ResourceInfo info);
 
-        abstract public ExtractorBooksDto HandleData(RawDataT rawData);
+        /// <inheritdoc />
+        abstract public Book Handle(IDocument rawData);
     }
 }
 

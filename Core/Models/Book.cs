@@ -1,23 +1,16 @@
 
-using Core.ExtractModels;
-
 namespace Core.Models
 {
     /// <summary>
     /// Модель для хранения информации о книге в бд. 
     /// </summary>
-    public class Book : IRawModel
+    public class Book
     {
         /// <summary>
         /// Id книги
         /// </summary>
         public Guid Id { get; set; }
 
-        /// <summary>
-        /// Id Extractor result'a, из которого была получена книга
-        /// </summary>
-        public Guid ExtractorResultId { get; set; }
-        
         /// <summary>
         /// Имя книги
         /// </summary>

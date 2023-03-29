@@ -28,7 +28,5 @@ namespace Core.Models
         /// Время выполнения парсинга
         /// </summary>
         public DateTime TimeOfCompletion { get; set; }
-
-        public ExtractorStatus Status { get; set; }
     }
 }

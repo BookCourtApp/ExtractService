@@ -1,20 +1,19 @@
+using AngleSharp.Dom;
 using Core;
+using Core.Extractor;
+using Core.Models;
 using Core.Object;
 
 namespace ExtractorProject.Extractors
 {
-    public class ExtractorLiveLib<T> : AbstractExtractor, IExtractor<T>
+    public class ExtractorLiveLib  : BookExtractor
     {
-        public ExtractorLiveLib(ExtractorSettings Settings) : base(Settings)
-        {
-        }
-
-        public Task<ExtractBatchResult<T>> ExtractNextBatch()
+        public override IDocument GetRawData(ResourceInfo info)
         {
             throw new NotImplementedException();
         }
 
-        public bool IsEndData()
+        public override Book Handle(IDocument rawData)
         {
             throw new NotImplementedException();
         }
