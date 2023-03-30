@@ -1,3 +1,5 @@
+using Core.Models;
+
 namespace Core.Extractor
 {
     /// <summary>
