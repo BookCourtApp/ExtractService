@@ -105,7 +105,6 @@ namespace ExtractorProject.Extractors
                 try
                 {
                     var price = Int32.Parse(document.QuerySelector("span.buying-pricenew-val-number").TextContent);
-                    book.Price = price;
                 }
                 catch (Exception e)
                 {

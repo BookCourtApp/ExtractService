@@ -1,3 +1,4 @@
+
 namespace Core.Models
 {
     /// <summary>

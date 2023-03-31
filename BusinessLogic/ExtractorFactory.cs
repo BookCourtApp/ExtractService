@@ -4,7 +4,7 @@ using Core.Models;
 using Core.Settings;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace ExtractorProject;
+namespace BusinessLogin;
 
 /// <summary>
 /// Класс фабрики для создания экстрактора или провайдера
