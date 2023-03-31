@@ -6,6 +6,9 @@ public class ResourceProviderSettings
     /// url до страницы откуда брать UrlResources
     /// </summary>
     public string Site { get; set; }
-
-    public ISettingsInfo Info { get; set; }
+    
+    /// <summary>
+    /// информация для провайдера ресурсов, детерменирована в зависимости от назначения провайдера
+    /// </summary>
+    public IProviderSettingsInfo Info { get; set; }
 }

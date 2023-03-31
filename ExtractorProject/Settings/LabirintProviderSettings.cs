@@ -2,7 +2,7 @@
 
 namespace ExtractorProject.Settings;
 
-public class LabirintSettings : ISettingsInfo
+public class LabirintProviderSettings : IProviderSettingsInfo
 {   
     public int MinId { get; set; }
 
