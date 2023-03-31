@@ -6,29 +6,36 @@ using System.Net;
 
 namespace ExtractorProject.Extractors
 {
+    /// <inheritdoc />
     public class ExtractorLabirint : IExtractor<IDocument, Book>
     {
         public IDocument GetRawData(ResourceInfo info)
         {
             var config = Configuration.Default.WithDefaultLoader();
             var context = BrowsingContext.New(config);
-            if (context.OpenAsync(info.URLResource).Result.Url.Contains("books") && context.OpenAsync(info.URLResource).Result.StatusCode != HttpStatusCode.NotFound)
+            var page = context.OpenAsync(info.URLResource).Result;
+            if (page.Url.Contains("books") && page.StatusCode != HttpStatusCode.NotFound)
             {
-                return context.OpenAsync(info.URLResource).Result;
+                return page;
             }
-            else return null;
+            else 
+                return null;
         }
 
         public Book Handle(IDocument rawData)
         {            
-        // ���� ������ ���������, �� ���������� null
-            if (rawData != null)
+            if (rawData == null)
+            {
+                return null;
+            }
+            else
             {
                 var document = rawData;
                 Book book = new Book()
                 {
                     ParsingDate = DateTime.UtcNow,
-                    SourceName = rawData.Url
+                    SourceName = rawData.Url,
+                    SourceUrl = "https://www.labirint.ru/"
                 };
                 try
                 {
@@ -67,7 +74,7 @@ namespace ExtractorProject.Extractors
 
                 try
                 {
-                    var ISBN = document.QuerySelector("div.isbn").TextContent.Replace("���", "").Replace("������", "").Replace("ISBN: ", "");
+                    var ISBN = document.QuerySelector("div.isbn").TextContent.Replace("все", "").Replace("скрыть", "").Replace("ISBN: ", "");
 
                     book.ISBN = ISBN;
                 }
@@ -88,11 +95,31 @@ namespace ExtractorProject.Extractors
 
                 try
                 {
+                    var tags = document.QuerySelectorAll("span.thermo-item");//GetElementsByTagName("span");
+                    string breadcrumbs = "";
+                    for (int tagn = 0; tagn < tags.Length; tagn++)
+                    {
+                        var qrmb = tags[tagn].TextContent.Replace("/", "");
+                        if (tagn != tags.Length - 1)
+                            breadcrumbs += qrmb + "/";
+                        else
+                            breadcrumbs += qrmb;
+                    }
+
+                    book.Breadcrumbs = breadcrumbs;
+                }
+                catch (Exception e)
+                {
+                    // Console.WriteLine(e);\
+                }
+
+                try
+                {
                     var numberOfPages = Int32.Parse(document.QuerySelector("div.pages2")
                        .TextContent
-                      .Replace("�������: ", "")
-                      .Replace(" (�����)", "   ")
-                      .Replace(" � ����������", "  ")
+                      .Replace("Страниц : ", "")
+                      .Replace(" (Офсет)", "   ")
+                      .Replace(" - прочитаете", "  ")
                       .Substring(0, 3)
                       .Trim());
                     book.NumberOfPages = numberOfPages;
@@ -118,9 +145,9 @@ namespace ExtractorProject.Extractors
                         string publisher = divpublyear.GetElementsByTagName("a")[0].TextContent;
                         var publishingYear = Int32.Parse(divpublyear.TextContent
                             .Replace(publisher, "")
-                            .Replace("������������: ", "")
+                            .Replace("Издательство: ", "")
                             .Replace(",", "")
-                            .Replace(" �.", "")
+                            .Replace(" г.", "")
                             .Trim());
                         book.PublisherYear = publishingYear;
                     }
@@ -129,10 +156,18 @@ namespace ExtractorProject.Extractors
                 {
                     //Console.WriteLine(e);   
                 }
-                book.ParsingDate = DateTime.UtcNow;
+
+                try
+                {
+                    var divarticul = document.QuerySelector("div.articul").TextContent.Replace("ID товара: ", "");
+                    book.SiteBookId = divarticul;
+                }
+                catch (Exception e)
+                {
+                    //Console.WriteLine(e); 
+                }
                 return book;
             }
-            return null;
 
         }
     }
