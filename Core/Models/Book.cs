@@ -75,7 +75,7 @@ namespace Core.Models
         ///
         ///В поле Breadcrqmbs я запишу их в формате "Книги/Нехудожественная литература/..."
         /// </summary>
-        public string? Breadcrqmbs { get; set; }
+        public string? Breadcrumbs { get; set; }
 
         /// <summary>
         /// url источника книг
