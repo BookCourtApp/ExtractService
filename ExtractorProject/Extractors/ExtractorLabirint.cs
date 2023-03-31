@@ -6,9 +6,9 @@ using System.Net;
 
 namespace ExtractorProject.Extractors
 {
-    public class ExtractorLabirint : BookExtractor
+    public class ExtractorLabirint : IExtractor<IDocument, Book>
     {
-        public override IDocument GetRawData(ResourceInfo info)
+        public IDocument GetRawData(ResourceInfo info)
         {
             var config = Configuration.Default.WithDefaultLoader();
             var context = BrowsingContext.New(config);
@@ -19,9 +19,9 @@ namespace ExtractorProject.Extractors
             else return null;
         }
 
-        public override Book Handle(IDocument rawData)
+        public Book Handle(IDocument rawData)
         {            
-        // Если ссылка невалидна, то вовзращает null
+        // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ null
             if (rawData != null)
             {
                 var document = rawData;
@@ -67,7 +67,7 @@ namespace ExtractorProject.Extractors
 
                 try
                 {
-                    var ISBN = document.QuerySelector("div.isbn").TextContent.Replace("все", "").Replace("скрыть", "").Replace("ISBN: ", "");
+                    var ISBN = document.QuerySelector("div.isbn").TextContent.Replace("пїЅпїЅпїЅ", "").Replace("пїЅпїЅпїЅпїЅпїЅпїЅ", "").Replace("ISBN: ", "");
 
                     book.ISBN = ISBN;
                 }
@@ -90,9 +90,9 @@ namespace ExtractorProject.Extractors
                 {
                     var numberOfPages = Int32.Parse(document.QuerySelector("div.pages2")
                        .TextContent
-                      .Replace("Страниц: ", "")
-                      .Replace(" (Офсет)", "   ")
-                      .Replace(" — прочитаете", "  ")
+                      .Replace("пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: ", "")
+                      .Replace(" (пїЅпїЅпїЅпїЅпїЅ)", "   ")
+                      .Replace(" пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ", "  ")
                       .Substring(0, 3)
                       .Trim());
                     book.NumberOfPages = numberOfPages;
@@ -119,9 +119,9 @@ namespace ExtractorProject.Extractors
                         string publisher = divpublyear.GetElementsByTagName("a")[0].TextContent;
                         var publishingYear = Int32.Parse(divpublyear.TextContent
                             .Replace(publisher, "")
-                            .Replace("Издательство: ", "")
+                            .Replace("пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: ", "")
                             .Replace(",", "")
-                            .Replace(" г.", "")
+                            .Replace(" пїЅ.", "")
                             .Trim());
                         book.PublisherYear = publishingYear;
                     }
