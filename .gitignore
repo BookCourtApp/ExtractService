@@ -7,4 +7,6 @@ LogFiles/
 
 *.swp
 *.vscode
+*.db
+*.db*
 
