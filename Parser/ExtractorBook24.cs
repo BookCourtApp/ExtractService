@@ -60,7 +60,7 @@ namespace ExtractorService.Parser
                 Console.WriteLine($"Parsing page: {CurrentPageUrl}");
                 var document = GetDocument(CurrentPageUrl);
                 if(document.StatusCode == (HttpStatusCode)520)
-                    Console.WriteLine("header was banned on page "+PageCounter);
+                    Console.WriteLine("HEADER WAS BANNED ON "+PageCounter);
                 if(document == null){
                     continue;
                 }
