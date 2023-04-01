@@ -1,6 +1,6 @@
 
 
-namespace Core.Object
+namespace ExtractorProject.Extractors.Entity
 {
     /// <summary>
     /// Перечисление для определения процесса, при котором произошла ошибка
