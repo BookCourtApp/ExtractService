@@ -28,10 +28,11 @@ namespace ExtractorService.Parser
         public ExtractorBook24(BookService service){
             _service = service; 
         }
-        public async Task InitParsing((int StartPage, int LastPage) ConfigToStart){
+        public Task InitParsing((int StartPage, int LastPage) ConfigToStart){
             Console.WriteLine($"Start thread {ConfigToStart.StartPage} to {ConfigToStart.LastPage}");
-            await Parse(ConfigToStart);
+            Parse(ConfigToStart);
             Console.WriteLine($"End thread {ConfigToStart.StartPage} to {ConfigToStart.LastPage}");
+            return Task.CompletedTask;
         }
         private /*static*/ async Task Parse((int StartPage, int LastPage) ConfigToStart){
 
@@ -58,6 +59,8 @@ namespace ExtractorService.Parser
 
                 Console.WriteLine($"Parsing page: {CurrentPageUrl}");
                 var document = GetDocument(CurrentPageUrl);
+                if(document.StatusCode == (HttpStatusCode)520)
+                    Console.WriteLine("header was banned on page "+PageCounter);
                 if(document == null){
                     continue;
                 }
@@ -160,7 +163,7 @@ namespace ExtractorService.Parser
                 //requestMessage.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:58.0) Gecko/20100101 Firefox/58.0");
                 var AngleSharpUrl = new Url(url);
                 var request = DocumentRequest.Get(AngleSharpUrl);
-                request.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3";
+                request.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Firefox/58.0";
                 request.Headers["Accept"] = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
                 request.Headers["Accept-Language"] = "en-US,en;q=0.9";
                 request.Headers["Referer"] = "https://www.google.com/";
