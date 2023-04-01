@@ -1,4 +1,5 @@
-namespace ExtractorProject.Extractors.Models
+
+namespace Core.Models
 {
     /// <summary>
     /// Модель для хранении информации о результате парсинга
@@ -6,7 +7,7 @@ namespace ExtractorProject.Extractors.Models
     public class ExtractorResult
     {
         /// <summary>
-        /// Поле Id для хранения записей ExtractorResult в базеданных
+        /// Поле Id для хранения записей ExtractorResult в базе данных
         /// </summary>
         public Guid Id {get;set;} 
         

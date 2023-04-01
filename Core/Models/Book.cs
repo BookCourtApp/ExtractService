@@ -1,5 +1,5 @@
 
-namespace ExtractorProject.Extractors.Models
+namespace Core.Models
 {
     /// <summary>
     /// Модель для хранения информации о книге в бд. 
@@ -75,7 +75,7 @@ namespace ExtractorProject.Extractors.Models
         ///
         ///В поле Breadcrqmbs я запишу их в формате "Книги/Нехудожественная литература/..."
         /// </summary>
-        public string? Breadcrqmbs { get; set; }
+        public string? Breadcrumbs { get; set; }
 
         /// <summary>
         /// url источника книг

@@ -1,6 +1,7 @@
-using ExtractorProject.Extractors.Entity;
 
-namespace ExtractorProject.Extractors.Models
+using Core.Object;
+
+namespace Core.Models
 {
     /// <summary>
     /// Модель для хранении информации об ошибке в бд.
@@ -11,10 +12,15 @@ namespace ExtractorProject.Extractors.Models
         /// Id для хранения в бд.
         /// </summary>
         public Guid Id { get; set; }
+        
         /// <summary>
         /// Причина ошибки
         /// </summary>
         public string Reason { get; set; }
+        
+        /// <summary>
+        /// место возникновения ошибки
+        /// </summary>
         public PlaceType Type{ get; set; }
 
         /// <summary>
