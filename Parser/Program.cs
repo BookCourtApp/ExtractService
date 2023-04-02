@@ -37,7 +37,9 @@ while (!isEnd)
         }
 
         Console.WriteLine($"Начался экстрактинг с {start} по {end} id.");
-        Parallel.ForEach(periods, tuple => Parser.InitParsing(tuple));
+        Parallel.ForEach(periods,
+                        new ParallelOptions(){MaxDegreeOfParallelism = 4},  // MaxDegreeOfParallelism - количество потоков которые будут использоваться
+                        tuple => Parser.InitParsing(tuple));
 
         timer.Stop();
         Console.WriteLine($"[{DateTime.Now}]: {start} по {end} страницы спаршены.\n" +

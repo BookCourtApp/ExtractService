@@ -164,7 +164,7 @@ namespace ExtractorService.Parser
                 var AngleSharpUrl = new Url(url);
                 var request = DocumentRequest.Get(AngleSharpUrl);
                 
-                request.Headers["User-Agent"] = "Mozilla/4.0 (compatible; MSIE 7.0; AOL 9.1; AOLBuild 4334.27; Windows NT 6.0; WOW64; SLCC1; .NET CLR 2.0.50727; .NET CLR 3.0.04506; Media Center PC 5.0); UnAuth-State";
+                request.Headers["User-Agent"] = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Firefox/58.0";
                 request.Headers["Accept"] = "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8";
                 request.Headers["Accept-Language"] = "en-US,en;q=0.9";
                 request.Headers["Referer"] = "http://avanti:farmaapteka25@176.119.140.6:7951";
