@@ -4,6 +4,7 @@ using Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -82,9 +83,19 @@ namespace ExtractorProject.Extractors
 
             try
             {
-                var table = document.QuerySelector("table.table table-bordered table-striped table-hover");
-                var rows = table.QuerySelector("td");
-                for*
+                IHtmlCollection<IElement>tds = document.QuerySelector("table.table table-bordered table-striped table-hover").GetElementsByTagName("td");
+                for(int i = 0;i < tds.Length; i++)
+                {
+                    if (tds[i].TextContent.Equals("Автор/Сценарист:"))
+                    {
+                        book.Author = tds[i + 1].TextContent;
+                    }
+                    if (tds[i].TextContent.Equals("Страниц:"))
+                    {
+                        int numberOfPages = Int32.Parse(tds[i + 1].TextContent.Trim().Replace(" ", ""));
+                        book.NumberOfPages = numberOfPages;
+                    }
+                }
             }
             catch (Exception e)
             {
