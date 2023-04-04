@@ -1,9 +1,11 @@
-﻿using AngleSharp.Dom;
+﻿using AngleSharp;
+using AngleSharp.Dom;
 using Core.Extractor;
 using Core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +16,15 @@ namespace ExtractorProject.Extractors
     {
         public IDocument GetRawData(ResourceInfo info)
         {
-            throw new NotImplementedException();
+            var config = Configuration.Default.WithDefaultLoader();
+            var context = BrowsingContext.New(config);
+            var page = context.OpenAsync(info.URLResource).Result;
+            if (page.StatusCode != HttpStatusCode.NotFound)
+            {
+                return page;
+            }
+            else
+                return null;
         }
 
         public Book Handle(IDocument rawData)
