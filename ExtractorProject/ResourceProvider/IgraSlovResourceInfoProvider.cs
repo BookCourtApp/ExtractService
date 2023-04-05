@@ -8,7 +8,7 @@ using ExtractorProject.Settings;
 namespace ExtractorProject.ResourceProvider;
 
 /// <summary>
-/// провайдер ресурсов для лабиринта
+/// провайдер ресурсов для игры слов
 /// </summary>
 public class IgraSlovResourceInfoProvider : IResourceInfoProvider
 {
