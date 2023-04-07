@@ -1,5 +1,10 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using Core.Models;
+using Core.Settings;
+using ExtractorProject.Extractors;
+using ExtractorProject.ResourceProvider;
+using ExtractorProject.Settings;
 using InfrastructureProject;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -64,7 +69,25 @@ var context = host.Services.GetService<ApplicationContext>();
 
 Console.WriteLine(context.Errors.Count());
 
-
+Vault14ProviderSettings vault14ProviderSettings = new Vault14ProviderSettings();
+ResourceProviderSettings resourceProviderSettings = new ResourceProviderSettings();
+resourceProviderSettings.Info = vault14ProviderSettings;
+Vault14ResourceInfoProvider vault14ResourceInfoProvider = new Vault14ResourceInfoProvider(resourceProviderSettings);
+IEnumerable<ResourceInfo> urls = vault14ResourceInfoProvider.GetResources();
+foreach (var url in urls)
+{
+    Console.WriteLine(url.URLResource);
+    ExtractorVault14 extractorVault14 = new ExtractorVault14();
+    Book book = extractorVault14.Handle(extractorVault14.GetRawData(url));
+    Console.WriteLine(book.Name + "Имя");
+    Console.WriteLine(book.Description + "Описание");
+    Console.WriteLine(book.SiteBookId);
+    Console.WriteLine(book.Author + "Автор"); 
+    Console.WriteLine(book.ISBN + "ISBN");
+    Console.WriteLine(book.Genre + "Жанр");
+    Console.WriteLine(book.Image + "Изобр");
+    Console.WriteLine(book.NumberOfPages + "str");
+}
 #endregion
 
 await host.RunAsync();

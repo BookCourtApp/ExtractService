@@ -4,6 +4,7 @@ using Core.Extractor;
 using Core.Models;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Net;
 using System.Numerics;
@@ -52,8 +53,9 @@ namespace ExtractorProject.Extractors
 
             try
             {
-                var descripton = document.QuerySelector("div.tab-block-inner editor").TextContent;
+                var descripton = document.GetElementsByClassName("tab-block-inner editor")[0].TextContent;
                 book.Description = descripton;
+                Console.WriteLine(descripton);
             }
             catch (Exception e)
             {
@@ -62,7 +64,8 @@ namespace ExtractorProject.Extractors
 
             try
             {
-                var image = document.QuerySelector("a.slide-inner image-container").TextContent;
+                var image = document.GetElementsByClassName("slide-image")[0].Attributes["src"].Value;
+                Console.WriteLine(image);
                 book.Image = image;
             }
             catch (Exception e)
@@ -72,7 +75,7 @@ namespace ExtractorProject.Extractors
 
             try
             {
-                var genre = document.QuerySelector("a.breadcrumb-link").TextContent;
+                var genre = document.QuerySelector("a[class = breadcrumb-link]").TextContent;
                 book.Genre = genre;
             }
             catch (Exception e)
@@ -93,7 +96,7 @@ namespace ExtractorProject.Extractors
 
             try
             {
-                IHtmlCollection<IElement>tds = document.QuerySelector("table.table table-bordered table-striped table-hover").GetElementsByTagName("td");
+                IHtmlCollection<IElement>tds = document.GetElementsByClassName("table table-bordered table-striped table-hover")[0].GetElementsByTagName("td");
                 for(int i = 0;i < tds.Length; i++)
                 {
                     if (tds[i].TextContent.Equals("Автор/Сценарист:"))
