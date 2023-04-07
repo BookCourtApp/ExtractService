@@ -13,8 +13,12 @@ using System.Threading.Tasks;
 
 namespace ExtractorProject.Extractors
 {
+    /// <summary>
+    /// Класс для парсинга Vault14
+    /// </summary>
     public class ExtractorVault14 : IExtractor<IDocument, Book>
     {
+        /// <inheritdoc/>
         public IDocument GetRawData(ResourceInfo info)
         {
             var config = Configuration.Default.WithDefaultLoader();
@@ -28,6 +32,7 @@ namespace ExtractorProject.Extractors
                 return null;
         }
 
+        /// <inheritdoc/>
         public Book Handle(IDocument rawData)
         {
             if(rawData == null)
@@ -55,7 +60,6 @@ namespace ExtractorProject.Extractors
             {
                 var descripton = document.GetElementsByClassName("tab-block-inner editor")[0].TextContent;
                 book.Description = descripton;
-                Console.WriteLine(descripton);
             }
             catch (Exception e)
             {
@@ -65,7 +69,6 @@ namespace ExtractorProject.Extractors
             try
             {
                 var image = document.GetElementsByClassName("slide-image")[0].Attributes["src"].Value;
-                Console.WriteLine(image);
                 book.Image = image;
             }
             catch (Exception e)
@@ -114,7 +117,6 @@ namespace ExtractorProject.Extractors
             {
                 // Console.WriteLine( e );
             }
-
 
             return book;
         }

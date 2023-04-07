@@ -8,17 +8,23 @@ using System.Net;
 
 namespace ExtractorProject.ResourceProvider;
 
+/// <summary>
+/// Провайдер ресурсов для сайта Vault14
+/// </summary>
 public class Vault14ResourceInfoProvider : IResourceInfoProvider
 {
     private readonly List<string> _categoriesURL;
 
     public Vault14ResourceInfoProvider(ResourceProviderSettings settings)
     {
-        Vault14ProviderSettings providerSettingsInfo = settings.Info as Vault14ProviderSettings
+        Vault14ProviderSettingsInfo providerSettingsInfo = settings.Info as Vault14ProviderSettingsInfo
                                        ?? throw new NullReferenceException($"{nameof(settings)} не подходит для итератора лабиринта");
         _categoriesURL = providerSettingsInfo.CategoriesURL;
     }
 
+    /// <summary>
+    /// Получение HTML-страницы по заданному URL
+    /// </summary>
     private IDocument GetHTMLPage(string URL)
     {
         var config = Configuration.Default.WithDefaultLoader();
@@ -31,6 +37,8 @@ public class Vault14ResourceInfoProvider : IResourceInfoProvider
         else
             return null;
     }
+
+    /// <inheritdoc/>
     public IEnumerable<ResourceInfo> GetResources()
     {
         foreach (var category in _categoriesURL) 
@@ -77,9 +85,6 @@ public class Vault14ResourceInfoProvider : IResourceInfoProvider
                     var resourceUrl = new ResourceInfo() { URLResource = "https://vault14.ru" + book.Attributes["href"].Value };
                     yield return resourceUrl;
                 }
-
-                  
-               // yield return resourceUrl;
             }
         }
     }

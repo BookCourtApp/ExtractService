@@ -6,7 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace ExtractorProject.Settings;
-public class Vault14ProviderSettings : IProviderSettingsInfo
+
+/// <summary>
+/// Настройки для провайдера Vault14
+/// </summary>
+public class Vault14ProviderSettingsInfo : IProviderSettingsInfo
 {
     public List<string> CategoriesURL { get; set; } = new List<string>()
     {
