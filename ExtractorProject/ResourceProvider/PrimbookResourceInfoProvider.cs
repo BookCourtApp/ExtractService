@@ -18,7 +18,7 @@ public class PrimbookResourceInfoProvider : IResourceInfoProvider
     
     public PrimbookResourceInfoProvider(ResourceProviderSettings settings)
     {
-        PrimbookProviderSettings providerSettingsInfo = settings.Info as PrimbookProviderSettings
+        PrimbookProviderSettingsInfo providerSettingsInfo = settings.Info as PrimbookProviderSettingsInfo
                                                         ?? throw new NullReferenceException($"{nameof(settings)} не подходит для итератора primbook");
         _catalogUrls = providerSettingsInfo.CatalogUrls;
     }

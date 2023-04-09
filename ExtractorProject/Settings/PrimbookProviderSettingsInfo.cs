@@ -5,7 +5,7 @@ namespace ExtractorProject.Settings;
 /// <summary>
 /// Настройки для провайдера ресурсов Primbook
 /// </summary>
-public class PrimbookProviderSettings : IProviderSettingsInfo
+public class PrimbookProviderSettingsInfo : IProviderSettingsInfo
 {
     /// <summary>
     /// массив url до каталогов с готовым параметром Page
