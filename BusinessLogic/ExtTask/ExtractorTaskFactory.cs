@@ -1,4 +1,7 @@
 ﻿using System.Reflection;
+using AngleSharp.Dom;
+using Core.Extractor;
+using Core.Models;
 using Core.Settings;
 using ExtractorProject;
 using ExtractorProject.Settings;
@@ -12,10 +15,8 @@ namespace BusinessLogin.ExtTask;
 public class ExtractorTaskFactory
 {
     private readonly IConfiguration _configuration;
-    private const string ResourceProvidersNamespace = "ExtractorProject.ResourceProvider";
-    private const string ExtractorsNamespace = "ExtractorProject.Extractors";
-    private const string ResourceProvidersSettingsNamespace = "ExtractorProject.Settings";
     private Assembly _assemblyExtractorProject;
+    
     public ExtractorTaskFactory(IConfiguration configuration)
     {
         _configuration = configuration;
@@ -51,7 +52,7 @@ public class ExtractorTaskFactory
     {
         return _assemblyExtractorProject
             .GetTypes()
-            .Where(t => t.Namespace == ExtractorsNamespace)
+            .Where(t => typeof(IExtractor<IDocument, Book>).IsAssignableFrom(t))
             .Select(t => t.Name);
     }
     
@@ -62,7 +63,7 @@ public class ExtractorTaskFactory
     {
         return _assemblyExtractorProject
             .GetTypes()
-            .Where(t => t.Namespace == ResourceProvidersNamespace)
+            .Where(t => typeof(IResourceInfoProvider).IsAssignableFrom(t))
             .Select(t => t.Name);
     }
     
