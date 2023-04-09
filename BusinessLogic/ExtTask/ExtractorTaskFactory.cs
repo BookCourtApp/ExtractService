@@ -15,8 +15,10 @@ namespace BusinessLogin.ExtTask;
 public class ExtractorTaskFactory
 {
     private readonly IConfiguration _configuration;
+    private const string ResourceProvidersNamespace = "ExtractorProject.ResourceProvider";
+    private const string ExtractorsNamespace = "ExtractorProject.Extractors";
+    private const string ResourceProvidersSettingsNamespace = "ExtractorProject.Settings";
     private Assembly _assemblyExtractorProject;
-    
     public ExtractorTaskFactory(IConfiguration configuration)
     {
         _configuration = configuration;
@@ -74,7 +76,7 @@ public class ExtractorTaskFactory
     {
         return _assemblyExtractorProject
             .GetTypes()
-            .Where(t => t.Namespace == ResourceProvidersSettingsNamespace)
+            .Where(t => typeof(IProviderSettingsInfo).IsAssignableFrom(t))
             .Select(t => t.Name);
     }
 }
