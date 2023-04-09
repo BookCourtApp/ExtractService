@@ -1,13 +1,14 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using Application;
 using BusinessLogin;
-using BusinessLogin.ExtractorTask;
+using BusinessLogin.ExtTask;
+using BusinessLogin.ExtTask.Queue;
+using BusinessLogin.Services;
 using BusinessLogin.Worker;
-using Core.Settings;
-using ExtractorProject.Extractors;
-using ExtractorProject.ResourceProvider;
-using ExtractorProject.Settings;
+using Core.Repository;
 using InfrastructureProject;
+using InfrastructureProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,42 +19,48 @@ using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services)  =>   // настройка сервисов
     {
         // Добавил dbContext для работы с БД
-        services.AddDbContext<ApplicationContext>(options =>
+        services.AddDbContextFactory<ApplicationContext>(options =>
         {
             var config = context.Configuration;
             // sqlite это in-memory db
             var connectionString = config.GetValue<string>("SqliteConnectionString");
             options.UseSqlite(connectionString);      
         });
-
+        services.AddSingleton<IBookRepository, BookRepository>();
+        services.AddSingleton<BookService>();
         services.AddSingleton<ExtractorFactory>();
-        services.AddTransient<ExtractorLabirint>();
-        services.AddTransient<LabirintResourceInfoProvider>();
+        services.AddSingleton<ExtractorTaskFactory>();
+        
         services.AddSingleton<ITaskQueue,TaskQueueLocalMemory>();
         services.AddHostedService<ExtractorWorker>();
+        services.AddHostedService<ConsoleClientWorker>();
+        
+        services.AddExtractors();
 
     }).Build();
 
+#region taskFactoryUseExample
 
+// ExtractorTaskFactory factory = new ExtractorTaskFactory(host.Services.GetService<IConfiguration>());
+// factory.CreateExtractorTask("LabirintResourceInfoProvider", "ExtractorLabirint", "LabirintProviderSettings");
+
+#endregion
 
 
 #region TasksAddExample
-//
+
 // var queueService = host.Services.GetService<ITaskQueue>();
 // for (int i = 0; i < 5; i++)
 // {
-//     var taskInfo = new TaskInfo()
+//     var taskInfo = new ExtractorTask()
 //     {
 //         ExtractorType = typeof(ExtractorLabirint),
 //         ResourceProviderType = typeof(LabirintResourceInfoProvider),
-//         ProviderSettings = new ResourceProviderSettings()
+//         ProviderSettings = new LabirintProviderSettings()
 //         {
-//             Site = "https://www.labirint.ru/books/",
-//             Info = new LabirintProviderSettings()
-//             {
-//                 MinId = i*5,
-//                 MaxId = i*5+5
-//             }
+//             MinId = i*5,
+//             MaxId = i*5+5,
+//             CatalogUrl = "https://www.labirint.ru/books/"
 //         }
 //     };
 //     queueService.Enqueue(taskInfo);

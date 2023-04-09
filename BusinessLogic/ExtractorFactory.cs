@@ -24,12 +24,18 @@ public class ExtractorFactory
     /// <param name="settings">настройки для конкретного типа провайдера</param>
     /// <param name="providerType">Тип данных провайдера</param>
     /// <returns>Инкапсулированный провайдер</returns>
-    /// <exception cref="NullReferenceException">когда не удалось создать нужный провайдер</exception>
-    public IResourceInfoProvider GetResourceInfoProvider(ResourceProviderSettings settings, Type providerType)
+    public IResourceInfoProvider GetResourceInfoProvider(IProviderSettingsInfo settings, Type providerType)
     {
-        var provider = ActivatorUtilities.CreateInstance(_services, providerType, settings) as IResourceInfoProvider;
-        if (provider is null)
-            throw new NullReferenceException($"{nameof(providerType)} can not be created");
+        IResourceInfoProvider provider;
+        try
+        { 
+            provider = ActivatorUtilities.CreateInstance(_services, providerType, settings) as IResourceInfoProvider;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
         return provider;
     }
     
@@ -41,6 +47,7 @@ public class ExtractorFactory
     /// <exception cref="NullReferenceException">когда не удалось создать нужный экстрактор</exception>
     public IExtractor<IDocument, Book> GetBookExtractor(Type extractorType)
     {
+        IExtractor<IDocument, Book> provider;
         var extractor = ActivatorUtilities.CreateInstance(_services, extractorType) as IExtractor<IDocument, Book>;
         if (extractor is null)
             throw new NullReferenceException($"{nameof(extractorType)} can not be created");

@@ -81,5 +81,17 @@ namespace Core.Models
         /// url источника книг
         /// </summary>
         public string SourceUrl { get; set; }
+
+        /// <summary>
+        /// проверка является ли книга тем же экземпляром
+        /// </summary>
+        /// <param name="other">проверяемая книга</param>
+        /// <returns>true если siteBookId и SourceUrl одинаковые</returns>
+        public bool IsEqualBook(Book other)
+        {
+            if (other.SiteBookId == this.SiteBookId && other.SourceUrl == this.SourceUrl)
+                return true;
+            return false;
+        }
     }
 }
