@@ -92,7 +92,6 @@ namespace ExtractorProject.Extractors
             {
                 //     Console.WriteLine($"{DateTime.Now} : ERROR for book - {ex.Message}");
             }
-            book.PublisherYear = 0;
             return book;
 
 

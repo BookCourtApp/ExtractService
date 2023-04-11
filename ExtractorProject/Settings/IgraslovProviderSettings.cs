@@ -5,7 +5,7 @@ namespace ExtractorProject.Settings;
 /// <summary>
 /// настройки  для провайдера игры слов
 /// </summary>
-public class IgraSlovProviderSettings : IProviderSettingsInfo
+public class IgraSlovProviderSettingsInfo : IProviderSettingsInfo
 {
     /// <summary>
     /// сслыка на каталог всех книг
