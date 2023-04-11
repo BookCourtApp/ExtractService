@@ -43,8 +43,10 @@ namespace ExtractorProject.Extractors
             };
             try
             {
-     
 
+                var SiteBookId = rawData.Url.Replace("https://igraslov.store/product/", "").Replace("/", "");
+                book.SiteBookId = SiteBookId;
+                 
                 var BoookName = document.GetElementsByClassName("single-post-title product_title entry-title")[0].TextContent;
                 book.Name = BoookName;
 

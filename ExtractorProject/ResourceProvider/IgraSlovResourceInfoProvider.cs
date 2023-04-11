@@ -12,13 +12,11 @@ namespace ExtractorProject.ResourceProvider;
 /// </summary>
 public class IgraSlovResourceInfoProvider : IResourceInfoProvider
 {
-    private readonly string _catalogUrl;
     private readonly string _Url;
     public IgraSlovResourceInfoProvider(ResourceProviderSettings settings)
     {
-        IgraSlovProviderSettings providerSettingsInfo = settings.Info as IgraSlovProviderSettings
+        IgraSlovProviderSettingsInfo providerSettingsInfo = settings.Info as IgraSlovProviderSettingsInfo
                                        ?? throw new NullReferenceException($"{nameof(settings)} не подходит для Игры Слов");
-        _catalogUrl = settings.Site;
         _Url = providerSettingsInfo.Url;
         
     }
