@@ -20,8 +20,6 @@ public class ExtractorBook24
         {
             var config = Configuration.Default.WithDefaultLoader();
             var context = BrowsingContext.New(config);
-            //var requestMessage = new HttpRequestMessage(System.Net.Http.HttpMethod.Get, url);
-            //requestMessage.Headers.Add("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:58.0) Gecko/20100101 Firefox/58.0");
             var AngleSharpUrl = new Url(resource.URLResource);
             var request = DocumentRequest.Get(AngleSharpUrl);
 
@@ -56,11 +54,11 @@ public class ExtractorBook24
                 NumberOfPages   = getPages(RawData),
                 SourceName      = RawData.Url,
                 Image           = getImage(RawData),
-                ParsingDate     = DateTime.UtcNow.ToUniversalTime(),
+                ParsingDate     = DateTime.UtcNow,
                 ISBN            = getISBN(RawData),
                 PublisherYear   = getYear(RawData),
                 Breadcrumbs     = getBreadcrumbs(RawData),
-                SiteBookId      = getVendor(RawData),
+                SiteBookId      = GetVendor(RawData),
                 SourceUrl       = "https://book24.ru"
             };
             return BookInfo;
@@ -68,12 +66,11 @@ public class ExtractorBook24
         catch (Exception ex)
         {
             Console.WriteLine("Ошибка при парсинге полей книги: " + ex.Message);
-            //Logging.Error($"Ошибка при парсинге книги: Page:{PageCounter - 1}, Product:{BookCounter}, URL:{BookPageUrl}");
         }
         return null;
     }
 
-    public static bool IsProductValid(IDocument document)
+    public bool IsProductValid(IDocument document)
     {
         var category = new List<string>() { " Книги с автографом ", " Художественная литература ", " Детские книги ", " Книги для подростков ", " Бизнес-литература ", " Самообразование и развитие ", " Хобби и досуг ", " Учебная литература ", " Педагогика и воспитание ", " Научно-популярная литература ", " Публицистика ", " Религия ", " Эксклюзивная продукция ", " Книги в кожаном переплете ", " Книжный развал ", " Букинистика и антикварные издания ", "" };
         if (category.Contains(document.GetElementsByClassName("breadcrumbs__link smartLink")[1].Children[0].TextContent))
@@ -105,7 +102,7 @@ public class ExtractorBook24
         return "";
 
     }
-    public static string getVendor(IDocument document)
+    public static string GetVendor(IDocument document)
     {
         try
         {

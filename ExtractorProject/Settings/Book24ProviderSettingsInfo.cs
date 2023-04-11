@@ -12,11 +12,11 @@ public class Book24ProviderSettingsInfo : IProviderSettingsInfo
     /// </summary>
     public string Catalog {get;set;}
     /// <summary>
-    /// Стартовая страница для парсинга
+    /// Номер страницы для старта парсинга
     /// </summary>
     public int MinPage { get; set; }
     /// <summary>
-    /// Конечная страница для парсинга
+    /// Номер страницы для конца парсинга
     /// </summary>
     public int MaxPage { get; set; }
 }

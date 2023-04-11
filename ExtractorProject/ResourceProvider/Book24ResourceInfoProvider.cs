@@ -21,7 +21,7 @@ public class Book24ResourceInfoProvider : IResourceInfoProvider
     public Book24ResourceInfoProvider(ResourceProviderSettings settings)
     {
         Book24ProviderSettingsInfo providerSettingsInfo = settings.Info as Book24ProviderSettingsInfo
-                                       ?? throw new NullReferenceException($"{nameof(settings)} не подходит для итератора лабиринта");
+                                       ?? throw new NullReferenceException($"{nameof(settings)} не подходит для итератора book24");
         _catalogUrl = providerSettingsInfo.Catalog;
         _minPage = providerSettingsInfo.MinPage;
         _maxPage = providerSettingsInfo.MaxPage;
