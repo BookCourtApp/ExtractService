@@ -1,6 +1,5 @@
 ﻿using AngleSharp;
 using AngleSharp.Dom;
-using AngleSharp.Media;
 using Core.Extractor;
 using Core.Models;
 using Core.Settings;
@@ -27,11 +26,11 @@ public class PrimbookResourceInfoProvider : IResourceInfoProvider
     /// метод для взятия IDocument через AngleSharp
     /// </summary>
     /// <param name="url">url по которому будет скачиваться IDocument</param>
-    private IDocument GetDocument(string url)
+    private async Task<IDocument> GetDocumentAsync(string url)
     {
         var config = Configuration.Default.WithDefaultLoader();
         var context = BrowsingContext.New(config);
-        var page = context.OpenAsync(url).Result;
+        var page = await context.OpenAsync(url);
         return page;
     }
 
@@ -42,12 +41,12 @@ public class PrimbookResourceInfoProvider : IResourceInfoProvider
         //todo: try-catch обёртки
         foreach (var catalogUrl in _catalogUrls)
         {
-            var catalogPage = GetDocument(catalogUrl);
+            var catalogPage = GetDocumentAsync(catalogUrl).Result;
             int countPages = Int32.Parse(catalogPage.GetElementsByClassName("system-pagenavigation-item")[^2].TextContent);
             for (int i = 0; i < countPages; i++)
             {
                 var pageUrl = catalogUrl + i;
-                var pageDocument = GetDocument(pageUrl);
+                var pageDocument = GetDocumentAsync(pageUrl).Result;
                 var bookPageUrls = pageDocument
                     .GetElementsByClassName("catalog-section-item intec-grid-item-3 intec-grid-item-700-2 intec-grid-item-720-3 intec-grid-item-950-2")
                     .Select(e => "https://primbook.ru" + e.GetElementsByClassName("catalog-section-item-image-wrapper intec-image-effect")[0]

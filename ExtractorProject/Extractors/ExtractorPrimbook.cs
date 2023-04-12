@@ -13,16 +13,16 @@ namespace ExtractorProject.Extractors;
 public class ExtractorPrimbook : IExtractor<IDocument, Book>
 {
     /// <inheritdoc />
-    public IDocument GetRawData(ResourceInfo resource)
+    public async Task<IDocument> GetRawDataAsync(ResourceInfo resource)
     {
         var config = Configuration.Default.WithDefaultLoader();
         var context = BrowsingContext.New(config);
-        var page = context.OpenAsync(resource.URLResource).Result;
+        var page = await context.OpenAsync(resource.URLResource);
         return page;
     }
 
     /// <inheritdoc />
-    public Book Handle(IDocument data)
+    public async Task<Book> HandleAsync(IDocument data)
     {
             string refToBook = data.Url;
             string BoookName = "";
