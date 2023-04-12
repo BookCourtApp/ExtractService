@@ -66,10 +66,10 @@ public class ExtractorWorker : BackgroundService
         var provider = _extractorFactory.GetResourceInfoProvider(extractorTask.ProviderSettings, extractorTask.ResourceProviderType);
         var extractor = _extractorFactory.GetBookExtractor(extractorTask.ExtractorType);
 
-        var resources = provider.GetResourcesAsync();
+        var resources = provider.GetResources();
         List<Book> bookResults = new List<Book>();
         Parallel     // распараллеливание работы над задачей на заданное количество потоков
-            .ForEach(provider.GetResourcesAsync(),
+            .ForEach(provider.GetResources(),
                 new ParallelOptions() {MaxDegreeOfParallelism = _threadCount}, async info =>
                 {           
                     Console.WriteLine($"Started thread with {info.URLResource}");
