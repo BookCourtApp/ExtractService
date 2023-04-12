@@ -25,7 +25,7 @@ public class LabirintResourceInfoProvider : IResourceInfoProvider
 
 
     /// <inheritdoc />
-    public IEnumerable<ResourceInfo> GetResources()
+    public IEnumerable<ResourceInfo> GetResourcesAsync()
     {
         for (int i = _minId; i < _maxId; i++)
         {

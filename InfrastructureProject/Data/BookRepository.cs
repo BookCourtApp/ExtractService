@@ -17,53 +17,54 @@ public class BookRepository : IBookRepository  //todo: сделать асинх
     }
     
     /// <inheritdoc />
-    public Book Create(Book book)
+    public async Task<Book> CreateAsync(Book book)
     {
-        using (var context = _contextFactory.CreateDbContext())
+        using (var context = await _contextFactory.CreateDbContextAsync())
         {
-            var result = context.Books.Add(book).Entity;
+            var result = (await context.Books.AddAsync(book)).Entity;
+            await context.SaveChangesAsync();
             return result; 
         }
         
     }
     
     /// <inheritdoc />
-    public void Update(Book book)
+    public async Task UpdateAsync(Book book)
     {
-        using (var context = _contextFactory.CreateDbContext())
+        using (var context = await _contextFactory.CreateDbContextAsync())
         {
             context.Update(book);
 
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
     }
 
-    public bool Delete(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
         throw new NotImplementedException();
     }
 
-    public void Get(Guid id)
+    public async Task GetAsync(Guid id)
     {
         throw new NotImplementedException();
     }
 
     /// <inheritdoc />
-    public Book? GetEqualBook(Book book)
+    public async Task<Book?> GetEqualBookAsync(Book book)
     {
-        using (var context = _contextFactory.CreateDbContext())
+        using (var context = await _contextFactory.CreateDbContextAsync())
         {
-            var result = context.Books.ToListAsync().Result.FirstOrDefault(b => b.IsEqualBook(book));
+            var result = (await context.Books.ToListAsync()).FirstOrDefault(b => b.IsEqualBook(book));
             return result;
         }
     }
 
     /// <inheritdoc />
-    public IEnumerable<Book> GetAll()
+    public async Task<IEnumerable<Book>> GetAllAsync()
     {
-        using (var context = _contextFactory.CreateDbContext())
+        using (var context = await _contextFactory.CreateDbContextAsync())
         {
-            return context.Books.ToListAsync().Result;
+            return await context.Books.ToListAsync();
         }
     }
 }

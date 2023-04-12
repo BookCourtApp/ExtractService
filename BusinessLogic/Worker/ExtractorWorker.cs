@@ -54,28 +54,27 @@ public class ExtractorWorker : BackgroundService
         if(_taskQueueService.IsEnd())
             return;
         var taskInfo = _taskQueueService.Dequeue();
-        var books = HandleTaskInfo(taskInfo);
-        _service.AddRange(books);
+        var books = await HandleTaskInfoAsync(taskInfo);
+        _service.AddRangeAsync(books);
     }
 
     /// <summary>
     /// Работа над задачей
     /// </summary>
-    private IEnumerable<Book> HandleTaskInfo(ExtractorTask extractorTask)
+    private async Task<IEnumerable<Book>> HandleTaskInfoAsync(ExtractorTask extractorTask)
     {
         var provider = _extractorFactory.GetResourceInfoProvider(extractorTask.ProviderSettings, extractorTask.ResourceProviderType);
         var extractor = _extractorFactory.GetBookExtractor(extractorTask.ExtractorType);
 
-        var resources = provider.GetResources();
+        var resources = provider.GetResourcesAsync();
         List<Book> bookResults = new List<Book>();
         Parallel     // распараллеливание работы над задачей на заданное количество потоков
-            .ForEach(provider.GetResources(),
-                new ParallelOptions() {MaxDegreeOfParallelism = _threadCount}, 
-                info =>
+            .ForEach(provider.GetResourcesAsync(),
+                new ParallelOptions() {MaxDegreeOfParallelism = _threadCount}, async info =>
                 {           
                     Console.WriteLine($"Started thread with {info.URLResource}");
-                    var rawInfo = extractor.GetRawData(info);
-                    var newBook = extractor.Handle(rawInfo);
+                    var rawInfo = await extractor.GetRawDataAsync(info);
+                    var newBook = await extractor.HandleAsync(rawInfo);
                     lock (bookResults)
                     {
                         bookResults.Add(newBook);

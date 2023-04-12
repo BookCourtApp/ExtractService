@@ -11,5 +11,5 @@ public interface IResourceInfoProvider
     /// <summary>
     /// Метод возвращающий перечислимую коллекцию ресурсов экстрактора
     /// </summary>
-    public abstract IEnumerable<ResourceInfo> GetResources();
+    public IEnumerable<ResourceInfo> GetResourcesAsync();
 }

@@ -2,7 +2,7 @@
 
 namespace BusinessLogin.ExtTask.Queue;
 
-public class TaskQueueLocalMemory : ITaskQueue         //todo: async
+public class TaskQueueLocalMemory : ITaskQueue //todo : отказоустойчивость
 {
     private readonly Queue<ExtractorTask> _queue;
 

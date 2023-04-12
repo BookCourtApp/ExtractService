@@ -13,11 +13,11 @@ namespace ExtractorProject.Extractors
     public class ExtractorLabirint : IExtractor<IDocument, Book>
     {
         /// <inheritdoc/>
-        public IDocument GetRawData(ResourceInfo info)
+        public async Task<IDocument> GetRawDataAsync(ResourceInfo info)
         {
             var config = Configuration.Default.WithDefaultLoader();
             var context = BrowsingContext.New(config);
-            var page = context.OpenAsync(info.URLResource).Result;
+            var page = await context.OpenAsync(info.URLResource);
             if (page.Url.Contains("books") && page.StatusCode != HttpStatusCode.NotFound)
             {
                 return page;
@@ -27,7 +27,7 @@ namespace ExtractorProject.Extractors
         }
 
         /// <inheritdoc/>
-        public Book Handle(IDocument rawData)
+        public async Task<Book> HandleAsync(IDocument rawData)
         {
             if (rawData == null)
             {

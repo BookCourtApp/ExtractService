@@ -18,22 +18,22 @@ public class BookService
     /// <summary>
     /// добавляет в бд батч книг, если экземпляр книги уже существует в бд - обновляет её
     /// </summary>
-    public void AddRange(IEnumerable<Book> books)
+    public async Task AddRangeAsync(IEnumerable<Book> books)
     {
         foreach (var book in books)
         {
             if(book.SiteBookId is null)
                 continue;
-            var exists = _repository.GetEqualBook(book);
+            var exists = await _repository.GetEqualBookAsync(book);
             
             if (!(exists is null))
             {
                 book.Id = exists.Id; 
-                _repository.Update(book);
+                await _repository.UpdateAsync(book);
             }
             else
             {
-                _repository.Create(book);
+                await _repository.CreateAsync(book);
             }
         }
     }

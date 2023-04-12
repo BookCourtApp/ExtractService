@@ -14,7 +14,7 @@ namespace Core.Extractor
         /// </summary>                                                                               
         /// <param name="resource">ресурс для извлечения, например, ссылка до карточки с книгой</param>
         /// <returns>единица сырой информации</returns>
-        public TRawData GetRawData(ResourceInfo resource);
+        public Task<TRawData> GetRawDataAsync(ResourceInfo resource);
         
         /// <summary>
         /// Метод который обрабатывает единицу сырой информации:
@@ -22,7 +22,7 @@ namespace Core.Extractor
         /// С помощью селекторов из неё извлекаются данные в модель и возвращаются
         /// </summary>
         /// <param name="data">единица обработанной информации</param>
-        public TOutputData Handle(TRawData data);
+        public Task<TOutputData> HandleAsync(TRawData data);
         
     }
 }
