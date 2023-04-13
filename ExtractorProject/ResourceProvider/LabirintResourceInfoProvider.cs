@@ -16,7 +16,7 @@ public class LabirintResourceInfoProvider : IResourceInfoProvider
 
     public LabirintResourceInfoProvider(ResourceProviderSettings settings)
     {
-        LabirintProviderSettings providerSettingsInfo = settings.Info as LabirintProviderSettings
+        LabirintProviderSettingsInfo providerSettingsInfo = settings.Info as LabirintProviderSettingsInfo
                                        ?? throw new NullReferenceException($"{nameof(settings)} не подходит для итератора лабиринта");
         _catalogUrl = settings.Site;
         _minId = providerSettingsInfo.MinId;

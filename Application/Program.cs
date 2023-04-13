@@ -1,12 +1,17 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
+using Core.Models;
+using Core.Settings;
+using ExtractorProject.Extractors;
+using ExtractorProject.ResourceProvider;
+using ExtractorProject.Settings;
 using InfrastructureProject;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-// создание приложения с DI контейнером 
+//создание приложения с DI контейнером 
 using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services)  =>   // настройка сервисов
     {
@@ -20,10 +25,31 @@ using IHost host = Host.CreateDefaultBuilder(args)
         });
     }).Build();
 
+#region ExtractorCreationExample
+// ResourceProviderSettings settings = new ResourceProviderSettings()
+// {
+//     Site = "https://primbook.ru",
+//     Info = new PrimbookProviderSettings
+//     {
+//         CatalogUrls = new[] { "https://primbook.ru/catalog/detskaya/?PAGEN_1=" }
+//     }
+// };
+// PrimbookResourceInfoProvider provider = new PrimbookResourceInfoProvider(settings);
+// ExtractorPrimbook extractor = new ExtractorPrimbook();
+// foreach (var resourceInfo in provider.GetResources())
+// {
+//     var raw = extractor.GetRawData(resourceInfo);
+//     var book = extractor.Handle(raw);
+//     Console.WriteLine(book.Name);
+// }
+
+#endregion
+
+
 #region DbDepednencyExample
 
 //получаем из зависимостей контекст
-var context = host.Services.GetService<ApplicationContext>();
+//var context = host.Services.GetService<ApplicationContext>();
 
 // context.Books.Add(new Book()
 // {
@@ -61,9 +87,6 @@ var context = host.Services.GetService<ApplicationContext>();
 //         }
 //     });
 // context.SaveChanges();
-
-Console.WriteLine(context.Errors.Count());
-
 
 #endregion
 
