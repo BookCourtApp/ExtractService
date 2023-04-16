@@ -6,7 +6,9 @@ using BusinessLogin.ExtTask;
 using BusinessLogin.ExtTask.Queue;
 using BusinessLogin.Services;
 using BusinessLogin.Worker;
+using Core.Models;
 using Core.Repository;
+using ExtractorProject.Extractors;
 using InfrastructureProject;
 using InfrastructureProject.Data;
 using Microsoft.EntityFrameworkCore;
@@ -39,6 +41,14 @@ using IHost host = Host.CreateDefaultBuilder(args)
 
     }).Build();
 
+LiveLibExtractor extractor = new LiveLibExtractor();
+for (int i = 1; i < 400; i++)
+{
+    var res = extractor.GetRawDataAsync(new ResourceInfo() { URLResource = "https://www.livelib.ru/genre/Ужасы-мистика~" +i}).Result;
+    
+    Console.WriteLine(res.Title + ";" + res.Url);            // https://www.livelib.ru/service/ratelimitcaptcha - url with captcha
+}
+await host.RunAsync();
 #region taskFactoryUseExample
 
 // ExtractorTaskFactory factory = new ExtractorTaskFactory(host.Services.GetService<IConfiguration>());
@@ -112,4 +122,3 @@ using IHost host = Host.CreateDefaultBuilder(args)
 
 
 #endregion
-await host.RunAsync();
