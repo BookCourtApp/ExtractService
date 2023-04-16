@@ -82,6 +82,7 @@ public class ExtractorWorker : BackgroundService
 
                     // Console.WriteLine($"Parsed {newBook.Name}");
                 });
+            //
         return bookResults;
-    }
+    }                // всё на уровне обработчика задачи, странно работает bookService, 
 }

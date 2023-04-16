@@ -16,7 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-// создание приложения с DI контейнером 
+//создание приложения с DI контейнером 
 using IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, services)  =>   // настройка сервисов
     {
@@ -29,7 +29,12 @@ using IHost host = Host.CreateDefaultBuilder(args)
             options.UseSqlite(connectionString);      
         });
         services.AddSingleton<IBookRepository, BookRepository>();
+        services.AddSingleton<UserRepository>();
+        services.AddSingleton < UserPreferenceRepository>();
+        
         services.AddSingleton<BookService>();
+        services.AddSingleton<UserService>();
+        services.AddSingleton < UserPreferenceService>();
         services.AddSingleton<ExtractorFactory>();
         services.AddSingleton<ExtractorTaskFactory>();
         
@@ -40,15 +45,46 @@ using IHost host = Host.CreateDefaultBuilder(args)
         services.AddExtractors();
 
     }).Build();
+var service = host.Services.GetService<UserService>();
 
-LiveLibExtractor extractor = new LiveLibExtractor();
-for (int i = 1; i < 400; i++)
+var serviceEx = host.Services.GetService<UserPreferenceService>();
+LiveLibUserExtractor userExtractor = new LiveLibUserExtractor();
+LiveLibUserInfoExtractor ex = new LiveLibUserInfoExtractor();
+for (int i = 100000; i < 100001; i++)
 {
-    var res = extractor.GetRawDataAsync(new ResourceInfo() { URLResource = "https://www.livelib.ru/genre/Ужасы-мистика~" +i}).Result;
+    var res = userExtractor.GetRawDataAsync(new ResourceInfo() { URLResource = "https://www.livelib.ru/readers/listview/smalllist~" +i}).Result;
+    if(res.Title.Contains("LiveLib"))
+        Console.WriteLine($"DANGER!!!!!!! {res.Title} : {i}");
     
-    Console.WriteLine(res.Title + ";" + res.Url);            // https://www.livelib.ru/service/ratelimitcaptcha - url with captcha
+    var users = await userExtractor.HandleAsync(res);
+    if(users.Count() > 0)
+        await service.AddRangeAsync(users);
+    foreach (var user in users)
+    {
+        int numPage = 1;
+        List<UserPreference> preferences = new List<UserPreference>();
+        int countparsed = -1;
+        while (countparsed == -1 || countparsed > 0)
+        {
+            countparsed = 0;
+            var resource = new ResourceInfo()
+                { URLResource = "https://www.livelib.ru/reader/" + user.UserLogin + "/read~" + numPage };
+            var dataex = await ex.GetRawDataAsync(resource);
+            var resex = await ex.HandleAsync(dataex);
+            countparsed = resex.Count();
+            preferences.AddRange(resex);
+        }
+
+        serviceEx.AddRangeAsync(preferences);
+
+    }
+    Console.WriteLine(res.Title);            // https://www.livelib.ru/service/ratelimitcaptcha - url with captcha
 }
-await host.RunAsync();
+var data =await ex.GetRawDataAsync(new ResourceInfo() { URLResource = "https://www.livelib.ru/reader/Shakespeare/read~1" });
+var userpref =await ex.HandleAsync(data);
+Console.WriteLine("aa");
+// await host.RunAsync();
+
 #region taskFactoryUseExample
 
 // ExtractorTaskFactory factory = new ExtractorTaskFactory(host.Services.GetService<IConfiguration>());

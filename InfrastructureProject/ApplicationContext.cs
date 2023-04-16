@@ -23,7 +23,14 @@ public class ApplicationContext : DbContext
     /// Коллекция дата сетов результатов экстрактора
     /// </summary>
     public DbSet<ExtractorResult> ExtractorResults { get; set; }
-    
+
+    /// <summary>
+    /// Коллекция с юзерами
+    /// </summary>
+    public DbSet<User> Users { get; set; }
+
+    public DbSet<UserPreference> UserPreferences { get; set; }
+
     /// <summary>
     /// .cotr
     /// </summary>
@@ -32,4 +39,10 @@ public class ApplicationContext : DbContext
         Database.EnsureCreated();
     }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<User>().HasNoKey();
+        modelBuilder.Entity<UserPreference>().HasNoKey();
+        base.OnModelCreating(modelBuilder);
+    }
 }
