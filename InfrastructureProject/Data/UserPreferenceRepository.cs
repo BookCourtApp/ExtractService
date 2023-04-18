@@ -36,7 +36,7 @@ public class UserPreferenceRepository
     }
     
     /// <inheritdoc />
-    public async Task<UserPreference?> GetEqualBookAsync(UserPreference user)
+    public async Task<UserPreference?> GetEqualUserPreferenceAsync(UserPreference user)
     {
         using (var context = await _contextFactory.CreateDbContextAsync())
         {

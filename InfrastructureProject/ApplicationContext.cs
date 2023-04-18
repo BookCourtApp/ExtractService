@@ -41,8 +41,8 @@ public class ApplicationContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>().HasNoKey();
-        modelBuilder.Entity<UserPreference>().HasNoKey();
+        modelBuilder.Entity<User>().HasKey(u => u.UserLogin);
+        modelBuilder.Entity<UserPreference>().HasKey("UserLogin", "LinkBook", "SiteName", "PreferenceType");
         base.OnModelCreating(modelBuilder);
     }
 }
