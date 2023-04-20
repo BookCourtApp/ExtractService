@@ -1,10 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-using Core.Models;
-using Core.Settings;
-using ExtractorProject.Extractors;
-using ExtractorProject.ResourceProvider;
-using ExtractorProject.Settings;
 using InfrastructureProject;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -44,7 +39,6 @@ using IHost host = Host.CreateDefaultBuilder(args)
 // }
 
 #endregion
-
 
 #region DbDepednencyExample
 

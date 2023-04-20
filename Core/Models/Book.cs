@@ -81,5 +81,47 @@ namespace Core.Models
         /// url источника книг
         /// </summary>
         public string SourceUrl { get; set; }
+        /// <summary>
+        /// Тэги книги
+        /// </summary>
+        public string? Tags { get; set; }
+        /// <summary>
+        /// Язык
+        /// </summary>
+        public string? Language { get; set; }
+        /// <summary>
+        /// Возрастные ограничения
+        /// </summary>
+        public int? Age { get; set; }
+        /// <summary>
+        /// Издательство
+        /// </summary>
+        public string? Publisher { get; set; }
+        /// <summary>
+        /// Рейтинг книги
+        /// </summary>
+        public double? Rating { get; set; }
+        /// <summary>
+        /// Количество цитат
+        /// </summary>
+        public int? Quotes { get; set; }
+        /// <summary>
+        /// Тираж
+        /// </summary>
+        public int? Circulations { get; set; }
+        /// <summary>
+        /// Количество рецензий на книгу
+        /// </summary>
+        public int? Reviews { get; set; }
+        /// <summary>
+        /// Количество пользователей, планирующих прочитать книгу
+        /// </summary>
+        public int? Planning { get; set; }
+        /// <summary>
+        /// Количество пользователей, прочитавших книгу
+        /// </summary>
+        public int? Reading { get; set; }
+
+
     }
 }
