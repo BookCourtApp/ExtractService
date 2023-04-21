@@ -54,7 +54,7 @@ public class BookRepository : IBookRepository  //todo: сделать асинх
     {
         using (var context = await _contextFactory.CreateDbContextAsync())
         {
-            var result = (await context.Books.ToListAsync()).FirstOrDefault(b => b.IsEqualBook(book));
+            var result = context.Books.FirstOrDefault(b => b.SiteBookId == book.SiteBookId && b.SourceUrl == book.SourceUrl);
             return result;
         }
     }

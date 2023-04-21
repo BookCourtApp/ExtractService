@@ -86,7 +86,7 @@ public class LiveLibResourceInfoProvider : IResourceInfoProvider
                 i++;
                 if(document.Title == "LiveLib")
                 {
-                    Console.WriteLine("CAPTCHA CAPTCHA CAPTCHA CAPTCHA CAPTCHA CAPTCHA \n CAPTCHA CAPTCHA CAPTCHA CAPTCHA CAPTCHA CAPTCHA CAPTCHA CAPTCHA CAPTCHA CAPTCHA");
+                    Console.WriteLine($"DANGER! {document.Title}, link: {category + "/listview/biglist/~" + i.ToString()}");
                     document = GetHTMLPage(category + "/listview/biglist/~" + i.ToString());
                     continue;
                 }

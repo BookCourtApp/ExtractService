@@ -7,15 +7,22 @@ using BusinessLogin.ExtTask.Queue;
 using BusinessLogin.Services;
 using BusinessLogin.Worker;
 using Core.Repository;
+using ExtractorProject.Extractors;
+using ExtractorProject.ResourceProvider;
 using InfrastructureProject;
 using InfrastructureProject.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 // создание приложения с DI контейнером 
 using IHost host = Host.CreateDefaultBuilder(args)
+    .ConfigureLogging((context, logging) =>
+    {
+        logging.AddFilter("Microsoft.EntityFrameworkCore.Database.Command", LogLevel.Warning);
+    })
     .ConfigureServices((context, services)  =>   // настройка сервисов
     {
         // Добавил dbContext для работы с БД
@@ -34,10 +41,15 @@ using IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<ITaskQueue,TaskQueueLocalMemory>();
         services.AddHostedService<ExtractorWorker>();
         services.AddHostedService<ConsoleClientWorker>();
-        
         services.AddExtractors();
 
     }).Build();
+//
+// var userService = host.Services.GetService<BookService>();
+// var provider = host.Services.GetService<LiveLibResourceInfoProvider>();
+// var extractor = host.Services.GetService<ExtractorLiveLib>();
+//
+
 
 #region taskFactoryUseExample
 

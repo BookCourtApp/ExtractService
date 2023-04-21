@@ -1,4 +1,5 @@
-﻿using BusinessLogin.ExtTask;
+﻿using System.Diagnostics;
+using BusinessLogin.ExtTask;
 using BusinessLogin.ExtTask.Queue;
 using BusinessLogin.Services;
 using Core.Extractor;
@@ -18,7 +19,7 @@ public class ExtractorWorker : BackgroundService
     public ExtractorWorker(ExtractorFactory extractorFactory,
                             ITaskQueue queue,
                             BookService service,
-                            int threadCount = 2)
+                            int threadCount = 10)
     {
         _extractorFactory = extractorFactory;
         _taskQueueService = queue;
@@ -66,19 +67,26 @@ public class ExtractorWorker : BackgroundService
         var provider = _extractorFactory.GetResourceInfoProvider(extractorTask.ProviderSettings, extractorTask.ResourceProviderType);
         var extractor = _extractorFactory.GetBookExtractor(extractorTask.ExtractorType);
 
+        int counter = 0;
+        var timer = Stopwatch.StartNew();
         //var resources = provider.GetResources();
         List<Book> bookResults = new List<Book>();
         Parallel     // распараллеливание работы над задачей на заданное количество потоков
             .ForEach(provider.GetResources(),
                 new ParallelOptions() {MaxDegreeOfParallelism = _threadCount}, async info =>
-                {           
+                {
                     Console.WriteLine($"Started thread with {info.URLResource}");
-                    var rawInfo = await extractor.GetRawDataAsync(info);
-                    var newBook = await extractor.HandleAsync(rawInfo);
+                    var rawInfo =  extractor.GetRawDataAsync(info).Result;
+                    var newBook =  extractor.HandleAsync(rawInfo).Result;
                     lock (_service)
                     {
                         //bookResults.Add(newBook);
                         _service.AddBookAsync(newBook);
+                        counter++;
+                        if (counter % 500 == 0)
+                        {
+                            Console.WriteLine($"counter={counter}; timer= {timer.ElapsedMilliseconds/1000}s");
+                        }
                     }
                     // Console.WriteLine($"Parsed {newBook.Name}");
                 });
