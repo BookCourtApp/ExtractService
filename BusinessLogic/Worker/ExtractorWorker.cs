@@ -51,22 +51,22 @@ public class ExtractorWorker : BackgroundService
     /// </summary>
     private async Task HandleQueue(CancellationToken cancellationToken)
     {
-        if(_taskQueueService.IsEnd())
+        if (_taskQueueService.IsEnd())
             return;
         var taskInfo = _taskQueueService.Dequeue();
-        var books = await HandleTaskInfoAsync(taskInfo);
-        _service.AddRangeAsync(books);
+        await HandleTaskInfoAsync(taskInfo);
+        //_service.AddRangeAsync(books);
     }
 
     /// <summary>
     /// Работа над задачей
     /// </summary>
-    private async Task<IEnumerable<Book>> HandleTaskInfoAsync(ExtractorTask extractorTask)
+    private async Task HandleTaskInfoAsync(ExtractorTask extractorTask)
     {
         var provider = _extractorFactory.GetResourceInfoProvider(extractorTask.ProviderSettings, extractorTask.ResourceProviderType);
         var extractor = _extractorFactory.GetBookExtractor(extractorTask.ExtractorType);
 
-        var resources = provider.GetResources();
+        //var resources = provider.GetResources();
         List<Book> bookResults = new List<Book>();
         Parallel     // распараллеливание работы над задачей на заданное количество потоков
             .ForEach(provider.GetResources(),
@@ -75,13 +75,13 @@ public class ExtractorWorker : BackgroundService
                     Console.WriteLine($"Started thread with {info.URLResource}");
                     var rawInfo = await extractor.GetRawDataAsync(info);
                     var newBook = await extractor.HandleAsync(rawInfo);
-                    lock (bookResults)
+                    lock (_service)
                     {
-                        bookResults.Add(newBook);
+                        //bookResults.Add(newBook);
+                        _service.AddBookAsync(newBook);
                     }
-
                     // Console.WriteLine($"Parsed {newBook.Name}");
                 });
-        return bookResults;
+        return;
     }
 }
