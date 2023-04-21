@@ -29,7 +29,7 @@ public class ExtractorFactory
         IResourceInfoProvider provider;
         try
         { 
-            provider = ActivatorUtilities.CreateInstance(_services, providerType, settings) as IResourceInfoProvider;
+            provider = ActivatorUtilities.CreateInstance(_services, providerType) as IResourceInfoProvider;
         }
         catch (Exception e)
         {

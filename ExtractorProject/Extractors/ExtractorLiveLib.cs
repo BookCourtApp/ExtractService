@@ -19,7 +19,7 @@ namespace ExtractorProject.Extractors;
 public class ExtractorLiveLib : IExtractor<IDocument, Book>
 {
     ///<inheritdoc/>
-    public IDocument GetRawData(ResourceInfo resourceInfo)
+    public async Task<IDocument> GetRawDataAsync(ResourceInfo resourceInfo)
     {
         HttpClient hc = new HttpClient();
         string headers = "'Host': 'www.livelib.ru', \n" +
@@ -52,7 +52,7 @@ public class ExtractorLiveLib : IExtractor<IDocument, Book>
     }
 
     ///<inheritdoc/>
-    public Book Handle(IDocument rawData)
+    public async Task<Book> HandleAsync(IDocument rawData)
     {
         Thread.CurrentThread.CurrentCulture = new CultureInfo("en-US");
         if (rawData == null)

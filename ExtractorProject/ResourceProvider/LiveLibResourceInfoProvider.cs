@@ -6,6 +6,7 @@ using Core.Extractor;
 using Core.Models;
 using Core.Settings;
 using ExtractorProject.Settings;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,11 +23,9 @@ public class LiveLibResourceInfoProvider : IResourceInfoProvider
 {
     private readonly List<string>_categoriesURL;
 
-    public LiveLibResourceInfoProvider(ResourceProviderSettings settings)
+    public LiveLibResourceInfoProvider(IOptions<LiveLibProviderSettingsInfo> settings)
     {
-        LiveLibProviderSettingsInfo providerSettingsInfo = settings.Info as LiveLibProviderSettingsInfo
-                                       ?? throw new NullReferenceException($"{nameof(settings)} не подходит для итератора лабиринта");
-        _categoriesURL = providerSettingsInfo.CategoriesURL;
+        _categoriesURL = settings.Value.CategoriesURL;
     }
 
     /// <summary>

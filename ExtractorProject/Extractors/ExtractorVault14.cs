@@ -19,7 +19,7 @@ namespace ExtractorProject.Extractors
     public class ExtractorVault14 : IExtractor<IDocument, Book>
     {
         /// <inheritdoc/>
-        public IDocument GetRawData(ResourceInfo info)
+        public async Task<IDocument> GetRawDataAsync(ResourceInfo info)
         {
             var config = Configuration.Default.WithDefaultLoader();
             var context = BrowsingContext.New(config);
@@ -33,7 +33,7 @@ namespace ExtractorProject.Extractors
         }
 
         /// <inheritdoc/>
-        public Book Handle(IDocument rawData)
+        public async Task<Book> HandleAsync(IDocument rawData)
         {
             if(rawData == null)
             {
