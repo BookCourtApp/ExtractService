@@ -79,6 +79,8 @@ public class LiveLibResourceInfoProvider : IResourceInfoProvider
                 Console.WriteLine("Документ не был получен" + e);
             }
             IHtmlCollection<IElement> links;
+            
+            //links = document.GetElementsByClassName("brow-book-name with-cycle");
             while (document.Title != "404 @ LiveLib")
             {
                 i++;
