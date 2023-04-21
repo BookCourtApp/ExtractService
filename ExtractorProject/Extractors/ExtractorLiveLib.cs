@@ -71,7 +71,7 @@ public class ExtractorLiveLib : IExtractor<IDocument, Book>
         {
             var link = document.GetElementsByClassName("footer-livelib__item").Last().GetElementsByTagName("a")[0].Attributes["href"].Value;
             book.SourceName = link; 
-            Console.WriteLine(book.SourceName);
+            //Console.WriteLine(book.SourceName);
         }
         catch (Exception e)
         {

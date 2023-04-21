@@ -76,7 +76,8 @@ public class LiveLibResourceInfoProvider : IResourceInfoProvider
             }
             catch (Exception e)
             {
-                Console.WriteLine("Документ не был получен" + e);
+                Console.WriteLine("Документ не был получен" + e + $"\nСсылка: {category + "/listview/biglist/~" + i.ToString()}");
+
             }
             IHtmlCollection<IElement> links;
             

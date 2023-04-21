@@ -75,7 +75,7 @@ public class ExtractorWorker : BackgroundService
             .ForEach(provider.GetResources(),
                 new ParallelOptions() {MaxDegreeOfParallelism = _threadCount}, async info =>
                 {
-                    Console.WriteLine($"Started thread with {info.URLResource}");
+                    //Console.WriteLine($"Started thread with {info.URLResource}");
                     var rawInfo =  extractor.GetRawDataAsync(info).Result;
                     var newBook =  extractor.HandleAsync(rawInfo).Result;
                     lock (_service)
