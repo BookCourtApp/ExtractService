@@ -63,9 +63,20 @@ public class ExtractorLiveLib : IExtractor<IDocument, Book>
         Book book = new Book()
         {
             ParsingDate = DateTime.UtcNow,
-            SourceName = rawData.Url,
+            //SourceName = rawData.Url,
             SourceUrl = "https://www.livelib.ru/"
         };
+
+        try
+        {
+            var link = document.GetElementsByClassName("footer-livelib__item").Last().GetElementsByTagName("a")[0].Attributes["href"].Value;
+            book.SourceName = link; 
+            Console.WriteLine(book.SourceName);
+        }
+        catch (Exception e)
+        {
+            //Console.WriteLine(e);
+        }
 
         try
         {
