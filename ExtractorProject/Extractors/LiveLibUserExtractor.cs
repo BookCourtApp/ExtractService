@@ -38,7 +38,7 @@ public class LiveLibUserExtractor : IExtractor<IDocument, IEnumerable<User>>
         "'Sec-Fetch-User': '?1',  \n " +
         " 'Sec-Fetch-Dest': 'document', \n" +
         "'Accept-Encoding': 'gzip, deflate',  \n" +
-        "  'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q=0.7', \n" +
+        "  'Accept-Language': 'ru-RU,ru;q=0.9,en-US;q=0.8,en;q= 0.7', \n" +
         "'X-Requested-With': 'XMLHttpRequest' \n";
         var headerscol = headers.Split('\n', StringSplitOptions.RemoveEmptyEntries).Select(header => header.Split(':', StringSplitOptions.RemoveEmptyEntries));
         foreach (var strings in headerscol)
@@ -52,9 +52,13 @@ public class LiveLibUserExtractor : IExtractor<IDocument, IEnumerable<User>>
         hc.DefaultRequestHeaders.Add("Cookie", _settings.Cookie);
           //  "LiveLibId=b8b79824f39aee14fdc09e0ece2fae19; __ll_tum=3495147849; __ll_ab_mp=1; __ll_unreg_session=b8b79824f39aee14fdc09e0ece2fae19; __ll_unreg_sessions_count=1; tmr_lvid=fe30080f574fb4fbf3871dc58b83be4f; tmr_lvidTS=1681620833896; _ga=GA1.2.685237644.1681620834; _gid=GA1.2.1667689490.1681620834; _ym_uid=1681620835986693727; _ym_d=1681620835; _ym_isad=2; _ym_visorc=b; iwatchyou=5df35936713e92b51205077989eee0cc; __llutmz=-600; __ll_fv=1681620901; __ll_dvs=5; __ll_cp=1; ll_asid=1246767843; __ll_popup_count_pviews=regc1_; __ll_google_oauth=; __ll_google_code=; llsid=98440d279f26ffcd38e8b2d00d0ec0fe; __utnx=12000205153; __llutmf=1; __utnt=g0_y0_a15721_u12000205153_c0; __ll_dv=1681620997; tmr_detect=0%7C1681621244655 ;_GRECAPTCHA=09AMqPRJwCrCJqa1Dz9seWcvLVRxRuIWHft81RkeBiChzgi5USgczb22xEMPuihJr_zHPHA9InPKUypdM6h9g3Gvs; 1P_JAR=2023-04-16-12; NID=511=Ma22WXo7e_5MrejpmvCQQTO-e-6bPzeNVotx2fI9Comd4URzmswyuos8EnC8rCVjndO7F1v58f1OVxmz1VGQsL-FB095NQvwRclrIMrwLf7HeMnZtw4w6j_ONTust--veO1v8_GrQFj5XByZ8Vm8EVoKbc_TlZQRkY8JrmH4vi4");
         var responce = hc.PostAsync(uri, null);
+        var byteArr = responce.Result.Content.ReadAsByteArrayAsync().Result;
+       // var ht = Encoding.GetString(byteArr, 0, byteArr.Length - 1);
         var html = responce.Result.Content.ReadAsStringAsync().Result;
         var parser = new HtmlParser();
+        
         return parser.ParseDocument(html);
+        
     }
 
     public async Task<IEnumerable<User>> HandleAsync(IDocument data)
@@ -65,8 +69,9 @@ public class LiveLibUserExtractor : IExtractor<IDocument, IEnumerable<User>>
         {
             try
             {
-                var userLogin = urowlogin.TextContent;
+               
                 var link = "https://www.livelib.ru" + urowlogin.GetAttribute("href");
+                var userLogin = link.Split('/', StringSplitOptions.RemoveEmptyEntries).Last();
                 User user = new User()
                 {
                     SiteName = "https://www.livelib.ru",

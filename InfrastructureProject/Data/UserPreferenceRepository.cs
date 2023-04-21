@@ -40,7 +40,7 @@ public class UserPreferenceRepository
     {
         using (var context = await _contextFactory.CreateDbContextAsync())
         {
-            var result = (await context.UserPreferences.ToListAsync()).FirstOrDefault(b => b.IsEqualUser(user));
+            var result = await context.UserPreferences.FirstOrDefaultAsync(b => b.UserLogin == user.UserLogin &&  b.LinkBook == user.LinkBook);
             return result;
         }
     }

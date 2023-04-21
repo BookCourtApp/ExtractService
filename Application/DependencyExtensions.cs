@@ -15,6 +15,7 @@ public static class DependencyExtensions
         services.AddSingleton<ExtractorLabirint>();
         services.AddSingleton<LiveLibUserExtractor>();
         services.AddSingleton<LiveLibUserPreferenceExtractor>();
+        services.AddSingleton<LiveLibUserPreferenceExtractorJson>();
         services.Configure<LabirintProviderSettings>(config.GetSection(nameof(LabirintProviderSettings)));
         
         services.Configure<LiveLibUserExtractorSettingsInfo>(config.GetSection(nameof(LiveLibUserExtractorSettingsInfo)));

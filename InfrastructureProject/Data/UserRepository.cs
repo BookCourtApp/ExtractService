@@ -36,11 +36,11 @@ public class UserRepository
     }
     
     /// <inheritdoc />
-    public async Task<User?> GetEqualBookAsync(User user)
+    public async Task<User?> GetEqualUserAsync(User user)
     {
         using (var context = await _contextFactory.CreateDbContextAsync())
         {
-            var result = (await context.Users.ToListAsync()).FirstOrDefault(b => b.IsEqualUser(user));
+            var result = await context.Users.FirstOrDefaultAsync(b => b.UserLogin == user.UserLogin && b.SiteName == user.SiteName);
             return result;
         }
     }
