@@ -41,4 +41,6 @@ public interface IBookRepository
     /// Получение всех книг
     /// </summary>
     public Task<IEnumerable<Book>> GetAllAsync();
+
+    public Task<IEnumerable<string>> Get1000BookLinksNotProcessedAsync();
 }

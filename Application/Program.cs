@@ -6,6 +6,7 @@ using BusinessLogin.ExtTask;
 using BusinessLogin.ExtTask.Queue;
 using BusinessLogin.Services;
 using BusinessLogin.Worker;
+using Core.Models;
 using Core.Repository;
 using ExtractorProject.Extractors;
 using ExtractorProject.ResourceProvider;
@@ -44,12 +45,12 @@ using IHost host = Host.CreateDefaultBuilder(args)
         services.AddExtractors();
 
     }).Build();
-//
-// var userService = host.Services.GetService<BookService>();
-// var provider = host.Services.GetService<LiveLibResourceInfoProvider>();
-// var extractor = host.Services.GetService<ExtractorLiveLib>();
-//
 
+ var userService = host.Services.GetService<BookService>();
+ var provider = host.Services.GetService<LiveLibResourceInfoProvider>();
+ var extractor = host.Services.GetService<ExtractorLiveLib>();
+     //сбив капчи
+var res = extractor.GetRawDataAsync(new ResourceInfo() { URLResource = "https://www.livelib.ru/readers" });
 
 #region taskFactoryUseExample
 

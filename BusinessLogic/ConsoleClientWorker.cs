@@ -40,6 +40,7 @@ public class ConsoleClientWorker : BackgroundService
             var task = _taskFactory.CreateExtractorTask(providerName, extractorName, settingsName);
             _taskQueue.Enqueue(task);
             Console.WriteLine("Началась работа над задачей.");
+            Console.ReadLine();
             await Task.Delay(3000);
            // Console.Clear();
         }

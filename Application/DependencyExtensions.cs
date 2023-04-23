@@ -11,10 +11,10 @@ public static class DependencyExtensions
     {
         services.AddSingleton<LabirintResourceInfoProvider>();
         services.AddSingleton<ExtractorLabirint>();
-        services.AddSingleton<LabirintResourceInfoProvider>();
-        services.AddSingleton<LiveLibResourceInfoProvider>();
+        //services.AddSingleton<LabirintResourceInfoProvider>();
+        services.AddSingleton<LiveLibResourceBookProviderFromRepo>();
         services.AddSingleton<ExtractorLiveLib>();
-        services.Configure<LiveLibProviderSettingsInfo>(config => new LiveLibProviderSettingsInfo());
+        // services.Configure<LiveLibProviderSettingsInfo>(config => new LiveLibProviderSettingsInfo());
         return services;
     }
 }

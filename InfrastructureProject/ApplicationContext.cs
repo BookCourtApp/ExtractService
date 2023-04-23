@@ -24,6 +24,8 @@ public class ApplicationContext : DbContext
     /// </summary>
     public DbSet<ExtractorResult> ExtractorResults { get; set; }
     
+    public DbSet<UserPreference> UserPreferences { get; set; }
+    
     /// <summary>
     /// .cotr
     /// </summary>
@@ -32,4 +34,9 @@ public class ApplicationContext : DbContext
         Database.EnsureCreated();
     }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.Entity<UserPreference>().HasKey("UserLogin", "LinkBook", "SiteName", "PreferenceType");
+        base.OnModelCreating(modelBuilder);
+    }
 }

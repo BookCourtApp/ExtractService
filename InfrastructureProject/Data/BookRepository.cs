@@ -67,4 +67,22 @@ public class BookRepository : IBookRepository  //todo: сделать асинх
             return await context.Books.ToListAsync();
         }
     }
+
+    public async Task<IEnumerable<string>> Get1000BookLinksNotProcessedAsync()
+    {
+        using (var context = await _contextFactory.CreateDbContextAsync())
+        {
+            var list = context.UserPreferences
+                .AsQueryable()
+                .Except(
+                    (from book in context.Books
+                    from pref in context.UserPreferences
+                    where (book.SourceName == pref.LinkBook)
+                    select pref));
+            list = list.Take(1000);
+            
+
+            return list.Select(l => l.LinkBook).ToList();
+        }
+    }
 }

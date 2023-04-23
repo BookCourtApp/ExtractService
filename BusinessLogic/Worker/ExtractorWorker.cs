@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using AngleSharp.Dom;
 using BusinessLogin.ExtTask;
 using BusinessLogin.ExtTask.Queue;
 using BusinessLogin.Services;
@@ -71,25 +72,32 @@ public class ExtractorWorker : BackgroundService
         var timer = Stopwatch.StartNew();
         //var resources = provider.GetResources();
         List<Book> bookResults = new List<Book>();
-        Parallel     // распараллеливание работы над задачей на заданное количество потоков
+        Parallel // распараллеливание работы над задачей на заданное количество потоков
             .ForEach(provider.GetResources(),
-                new ParallelOptions() {MaxDegreeOfParallelism = _threadCount}, async info =>
-                {
-                    //Console.WriteLine($"Started thread with {info.URLResource}");
-                    var rawInfo =  extractor.GetRawDataAsync(info).Result;
-                    var newBook =  extractor.HandleAsync(rawInfo).Result;
-                    lock (_service)
-                    {
-                        //bookResults.Add(newBook);
-                        _service.AddBookAsync(newBook);
-                        counter++;
-                        if (counter % 500 == 0)
-                        {
-                            Console.WriteLine($"counter={counter}; timer= {timer.ElapsedMilliseconds/1000}s");
-                        }
-                    }
-                    // Console.WriteLine($"Parsed {newBook.Name}");
-                });
+              new ParallelOptions() { MaxDegreeOfParallelism = _threadCount },
+                info =>  HandleInfo(info, ref counter, extractor, timer));
+
+        // foreach (var resourceInfo in provider.GetResources())
+        // {
+        //     HandleInfo(resourceInfo, ref counter, extractor, timer);
+        // }
         return;
+    }
+
+    private Task HandleInfo(ResourceInfo info, ref int counter, IExtractor<IDocument, Book> extractor, Stopwatch timer)
+    {
+        var rawInfo =  extractor.GetRawDataAsync(info).Result;
+        var newBook =  extractor.HandleAsync(rawInfo).Result;
+        lock (_service)
+        {
+            //bookResults.Add(newBook);
+            _service.AddBookAsync(newBook);
+            counter++;
+            if (counter % 10 == 0)
+            {
+                Console.WriteLine($"counter={counter}; timer= {timer.ElapsedMilliseconds/1000}s");
+            }
+        }
+        return Task.CompletedTask;
     }
 }
