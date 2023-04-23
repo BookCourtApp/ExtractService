@@ -46,7 +46,23 @@ using IHost host = Host.CreateDefaultBuilder(args)
 
     }).Build();
 
- var userService = host.Services.GetService<BookService>();
+string HandleString(string value)
+{
+    if (value.Contains("№"))
+    {
+        for (int i = value.IndexOf("№"); i < value.Length; i++)
+        {
+            if (value[i] == 'в')
+            {
+                return value.Substring(i + 2).Trim();
+            }
+        }
+    }
+    return value;
+}
+Console.WriteLine(HandleString(" №4 в Личная эффективность"));
+
+var userService = host.Services.GetService<BookService>();
  var provider = host.Services.GetService<LiveLibResourceInfoProvider>();
  var extractor = host.Services.GetService<ExtractorLiveLib>();
      //сбив капчи

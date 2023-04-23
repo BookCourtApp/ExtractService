@@ -63,6 +63,24 @@ public class ExtractorLiveLib : IExtractor<IDocument, Book>
         
         return parser.ParseDocument("");
     }
+
+    /// <summary>
+    /// Обработка названий жанров и тэгов
+    /// </summary>
+    string HandleString(string value)
+    {
+        if (value.Contains("№"))
+        {
+            for (int i = value.IndexOf("№"); i < value.Length; i++)
+            {
+                if (value[i] == 'в')
+                {
+                    return value.Substring(i + 2).Trim();
+                }
+            }
+        }
+        return value;
+    }
     
     ///<inheritdoc/>
     public async Task<Book> HandleAsync(IDocument rawData)
@@ -243,7 +261,7 @@ public class ExtractorLiveLib : IExtractor<IDocument, Book>
             for(int i = 0;i < agenres.Length;i++)
             {
 
-                genres += (agenres[i].TextContent + ";");
+                genres += (HandleString(agenres[i].TextContent) + ";");
 
             }
             string tags = "";
@@ -251,7 +269,7 @@ public class ExtractorLiveLib : IExtractor<IDocument, Book>
             for(int i = 0;i < atags.Length-2; i++)
             {
 
-                tags += (atags[i].TextContent + ";");
+                tags += (HandleString(atags[i].TextContent) + ";");
 
             }
             book.Genre = genres;        
