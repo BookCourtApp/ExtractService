@@ -14,6 +14,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 
 namespace ExtractorProject.ResourceProvider;
 
@@ -24,10 +25,11 @@ public class LiveLibResourceInfoProvider : IResourceInfoProvider
 {
     private readonly List<string>_categoriesURL;
 
-    public LiveLibResourceInfoProvider(IOptions<LiveLibProviderSettingsInfo> settings)
+    public LiveLibResourceInfoProvider(Microsoft.Extensions.Configuration.IConfiguration configuration)
     {
-        _categoriesURL = settings.Value.CategoriesURL;
+        _categoriesURL =  configuration.GetSection("LiveLibProviderSettingsInfo").Get<LiveLibProviderSettingsInfo>().CategoriesURL ; //.Get<LiveLibProviderSettingsInfo>().CategoriesURL;
     }
+    
 
     /// <summary>
     /// Получение HTML-страницы по заданному URL
@@ -80,8 +82,12 @@ public class LiveLibResourceInfoProvider : IResourceInfoProvider
     ///<inheritdoc/>
     public IEnumerable<ResourceInfo> GetResources()
     {
+        int numCategory = 0;
         foreach (var category in _categoriesURL)
         {
+            numCategory++;
+            if(numCategory == 1)
+                continue;
             Console.WriteLine("Started "+category);
             int i = 1;
             IDocument document = null;
@@ -118,7 +124,7 @@ public class LiveLibResourceInfoProvider : IResourceInfoProvider
 
             }
             Console.WriteLine("Finished "+category);
-            break; //TODO: убрать
+             //TODO: убрать
         }
     }   
 }

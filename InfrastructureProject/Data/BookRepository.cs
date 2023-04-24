@@ -1,6 +1,9 @@
 ﻿using Core.Models;
 using Core.Repository;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Security.Cryptography;
 
 namespace InfrastructureProject.Data;
 
@@ -68,21 +71,15 @@ public class BookRepository : IBookRepository  //todo: сделать асинх
         }
     }
 
-    public async Task<IEnumerable<string>> Get1000BookLinksNotProcessedAsync()
+    public async Task<IEnumerable<string>> Get1000BookLinksNotProcessedAsync(int numPage, int size)
     {
         using (var context = await _contextFactory.CreateDbContextAsync())
         {
-            var list = context.UserPreferences
-                .AsQueryable()
-                .Except(
-                    (from book in context.Books
-                    from pref in context.UserPreferences
-                    where (book.SourceName == pref.LinkBook)
-                    select pref));
-            list = list.Take(1000);
-            
-
-            return list.Select(l => l.LinkBook).ToList();
+            var list2 = context.UserPreferences
+                    .GroupBy(p => p.LinkBook)
+                    .Select(grp => grp.First().LinkBook)
+                    .OrderBy(p => p);
+            return list2.Skip((numPage-1) * size).Take(size).ToList();
         }
     }
 }

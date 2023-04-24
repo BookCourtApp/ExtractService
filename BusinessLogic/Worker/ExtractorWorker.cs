@@ -20,7 +20,7 @@ public class ExtractorWorker : BackgroundService
     public ExtractorWorker(ExtractorFactory extractorFactory,
                             ITaskQueue queue,
                             BookService service,
-                            int threadCount = 10)
+                            int threadCount = 5)
     {
         _extractorFactory = extractorFactory;
         _taskQueueService = queue;
@@ -65,7 +65,7 @@ public class ExtractorWorker : BackgroundService
     /// </summary>
     private async Task HandleTaskInfoAsync(ExtractorTask extractorTask)
     {
-        var provider = _extractorFactory.GetResourceInfoProvider(extractorTask.ProviderSettings, extractorTask.ResourceProviderType);
+        var provider = _extractorFactory.GetResourceInfoProvider( extractorTask.ResourceProviderType);
         var extractor = _extractorFactory.GetBookExtractor(extractorTask.ExtractorType);
 
         int counter = 0;
@@ -93,7 +93,7 @@ public class ExtractorWorker : BackgroundService
             //bookResults.Add(newBook);
             _service.AddBookAsync(newBook);
             counter++;
-            if (counter % 10 == 0)
+            if (counter % 100 == 0)
             {
                 Console.WriteLine($"counter={counter}; timer= {timer.ElapsedMilliseconds/1000}s");
             }

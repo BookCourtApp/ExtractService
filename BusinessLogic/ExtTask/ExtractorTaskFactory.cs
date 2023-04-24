@@ -32,17 +32,17 @@ public class ExtractorTaskFactory
     /// <param name="extractorTypeStr">название типа экстрактора</param>
     /// <param name="providerSettingsTypeStr">название типа настроек провайдера</param>
     /// <returns>Созданную задачу для экстрактора</returns>
-    public ExtractorTask CreateExtractorTask(string providerTypeStr, string extractorTypeStr, string providerSettingsTypeStr)
+    public ExtractorTask CreateExtractorTask(string providerTypeStr, string extractorTypeStr)
     {
         var providerType = _assemblyExtractorProject.GetType($"{ResourceProvidersNamespace}.{providerTypeStr}");
         var extractorType = _assemblyExtractorProject.GetType($"{ExtractorsNamespace}.{extractorTypeStr}");
-        var settingsType = _assemblyExtractorProject.GetType($"{ResourceProvidersSettingsNamespace}.{providerSettingsTypeStr}");
-        var settings = _configuration.GetSection(providerSettingsTypeStr).Get(settingsType) as IProviderSettingsInfo;  //todo: возможно стоит перенести это в какой-нибудь провайдер
+     //   var settingsType = _assemblyExtractorProject.GetType($"{ResourceProvidersSettingsNamespace}.{providerSettingsTypeStr}");
+      //  var settings = _configuration.GetSection(providerSettingsTypeStr).Get(settingsType) as IProviderSettingsInfo;  //todo: возможно стоит перенести это в какой-нибудь провайдер
         var task = new ExtractorTask()
         {
             ExtractorType = extractorType,
             ResourceProviderType = providerType,
-            ProviderSettings = settings
+          //  ProviderSettings = settings
         };
         return task;
     }

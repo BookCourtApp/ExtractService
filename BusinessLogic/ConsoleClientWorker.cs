@@ -32,12 +32,12 @@ public class ConsoleClientWorker : BackgroundService
             PrintList(providers);
             string providerName = providers[GetNumber()];
 
-            Console.WriteLine("Введите номер настроек из списка, который вы хотите использовать");
-            var provodersSettings = _taskFactory.GetSettings().ToList();
-            PrintList(provodersSettings);
-            string settingsName = provodersSettings[GetNumber()];
+            // Console.WriteLine("Введите номер настроек из списка, который вы хотите использовать");
+            // var provodersSettings = _taskFactory.GetSettings().ToList();
+            // PrintList(provodersSettings);
+            // string settingsName = provodersSettings[GetNumber()];
 
-            var task = _taskFactory.CreateExtractorTask(providerName, extractorName, settingsName);
+            var task = _taskFactory.CreateExtractorTask(providerName, extractorName);
             _taskQueue.Enqueue(task);
             Console.WriteLine("Началась работа над задачей.");
             Console.ReadLine();

@@ -24,7 +24,7 @@ public class ExtractorFactory
     /// <param name="settings">настройки для конкретного типа провайдера</param>
     /// <param name="providerType">Тип данных провайдера</param>
     /// <returns>Инкапсулированный провайдер</returns>
-    public IResourceInfoProvider GetResourceInfoProvider(IProviderSettingsInfo settings, Type providerType)
+    public IResourceInfoProvider GetResourceInfoProvider(Type providerType)
     {
         IResourceInfoProvider provider;
         try

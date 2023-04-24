@@ -49,7 +49,7 @@ public class BookService
         if (!(exists is null))
         {
             book.Id = exists.Id;
-            await _repository.UpdateAsync(book);
+            return;await _repository.UpdateAsync(book);
         }
         else
         {

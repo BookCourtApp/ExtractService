@@ -25,7 +25,9 @@ public class ApplicationContext : DbContext
     public DbSet<ExtractorResult> ExtractorResults { get; set; }
     
     public DbSet<UserPreference> UserPreferences { get; set; }
-    
+
+    public DbSet<ParsedLink> ParsedLinks { get; set; }
+
     /// <summary>
     /// .cotr
     /// </summary>
@@ -37,6 +39,7 @@ public class ApplicationContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<UserPreference>().HasKey("UserLogin", "LinkBook", "SiteName", "PreferenceType");
+        modelBuilder.Entity<ParsedLink>().HasKey(p => p.Link);
         base.OnModelCreating(modelBuilder);
     }
 }

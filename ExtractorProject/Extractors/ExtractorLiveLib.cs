@@ -100,7 +100,7 @@ public class ExtractorLiveLib : IExtractor<IDocument, Book>
 
         try
         {
-            var link = document.GetElementsByClassName("footer-livelib__item").Last().GetElementsByTagName("a")[0].Attributes["href"].Value;
+            var link = "https://www.livelib.ru" + document.GetElementsByClassName("bc-header__link bc-header__link--active bc-detailing-about")[0].Attributes["href"].Value;
             book.SourceName = link; 
             //Console.WriteLine(book.SourceName);
         }

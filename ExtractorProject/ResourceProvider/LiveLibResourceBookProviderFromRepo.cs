@@ -15,14 +15,16 @@ public class LiveLibResourceBookProviderFromRepo  : IResourceInfoProvider
 
     public IEnumerable<ResourceInfo> GetResources()
     {
-        var list = _repository.Get1000BookLinksNotProcessedAsync().Result;
+        var list = _repository.Get1000BookLinksNotProcessedAsync(1, 1000).Result;
         foreach (var l in list)
         {
             yield return new ResourceInfo(){URLResource = l};
         }
+        int page = 1;
         while (list.Count() > 0)
         {
-            list = _repository.Get1000BookLinksNotProcessedAsync().Result;
+            page++;
+            list = _repository.Get1000BookLinksNotProcessedAsync(page, 1000).Result;
             foreach (var l in list)
             {
                 yield return new ResourceInfo(){URLResource = l};

@@ -10,6 +10,7 @@ using Core.Models;
 using Core.Repository;
 using ExtractorProject.Extractors;
 using ExtractorProject.ResourceProvider;
+using ExtractorProject.Settings;
 using InfrastructureProject;
 using InfrastructureProject.Data;
 using Microsoft.EntityFrameworkCore;
@@ -17,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 
 // создание приложения с DI контейнером 
 using IHost host = Host.CreateDefaultBuilder(args)
@@ -42,31 +44,33 @@ using IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<ITaskQueue,TaskQueueLocalMemory>();
         services.AddHostedService<ExtractorWorker>();
         services.AddHostedService<ConsoleClientWorker>();
-        services.AddExtractors();
+        services.AddExtractors(context.Configuration);
 
     }).Build();
 
-string HandleString(string value)
-{
-    if (value.Contains("№"))
-    {
-        for (int i = value.IndexOf("№"); i < value.Length; i++)
-        {
-            if (value[i] == 'в')
-            {
-                return value.Substring(i + 2).Trim();
-            }
-        }
-    }
-    return value;
-}
-Console.WriteLine(HandleString(" №4 в Личная эффективность"));
+//string HandleString(string value)
+//{
+//    if (value.Contains("№"))
+//    {
+//        for (int i = value.IndexOf("№"); i < value.Length; i++)
+//        {
+//            if (value[i] == 'в')
+//            {
+//                return value.Substring(i + 2).Trim();
+//            }
+//        }
+//    }
+//    return value;
+//}
+//Console.WriteLine(HandleString(" №4 в Личная эффективность"));
 
 var userService = host.Services.GetService<BookService>();
  var provider = host.Services.GetService<LiveLibResourceInfoProvider>();
  var extractor = host.Services.GetService<ExtractorLiveLib>();
+var res =host.Services.GetService<IOptions<LiveLibProviderSettingsInfo>>();
+Console.ReadLine();
      //сбив капчи
-var res = extractor.GetRawDataAsync(new ResourceInfo() { URLResource = "https://www.livelib.ru/readers" });
+     //var res = extractor.GetRawDataAsync(new ResourceInfo() { URLResource = "https://www.livelib.ru/readers" });
 
 #region taskFactoryUseExample
 

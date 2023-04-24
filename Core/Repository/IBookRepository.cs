@@ -42,5 +42,5 @@ public interface IBookRepository
     /// </summary>
     public Task<IEnumerable<Book>> GetAllAsync();
 
-    public Task<IEnumerable<string>> Get1000BookLinksNotProcessedAsync();
+    public Task<IEnumerable<string>> Get1000BookLinksNotProcessedAsync(int page, int size);
 }
