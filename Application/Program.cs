@@ -37,6 +37,7 @@ using IHost host = Host.CreateDefaultBuilder(args)
             options.UseSqlite(connectionString);      
         });
         services.AddSingleton<IBookRepository, BookRepository>();
+        services.AddSingleton<ParsedLinkRepository>();
         services.AddSingleton<BookService>();
         services.AddSingleton<ExtractorFactory>();
         services.AddSingleton<ExtractorTaskFactory>();
@@ -70,7 +71,7 @@ var userService = host.Services.GetService<BookService>();
 var res =host.Services.GetService<IOptions<LiveLibProviderSettingsInfo>>();
 //Console.ReadLine();
      //сбив капчи
-     //var res = extractor.GetRawDataAsync(new ResourceInfo() { URLResource = "https://www.livelib.ru/readers" });
+
 
 #region taskFactoryUseExample
 

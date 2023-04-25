@@ -5,6 +5,7 @@ using BusinessLogin.ExtTask.Queue;
 using BusinessLogin.Services;
 using Core.Extractor;
 using Core.Models;
+using InfrastructureProject.Data;
 using Microsoft.Extensions.Hosting;
 
 namespace BusinessLogin.Worker;
@@ -15,16 +16,19 @@ public class ExtractorWorker : BackgroundService
     private readonly ExtractorFactory _extractorFactory;
     private readonly ITaskQueue _taskQueueService;
     private readonly BookService _service;
+    private readonly ParsedLinkRepository _linkRepository;
     private readonly int _threadCount;
 
     public ExtractorWorker(ExtractorFactory extractorFactory,
                             ITaskQueue queue,
                             BookService service,
+                            ParsedLinkRepository linkRepository,
                             int threadCount = 10)
     {
         _extractorFactory = extractorFactory;
         _taskQueueService = queue;
         _service = service;
+        _linkRepository = linkRepository;
         _threadCount = threadCount;
     }
 
@@ -86,6 +90,12 @@ public class ExtractorWorker : BackgroundService
 
     private Task HandleInfo(ResourceInfo info, ref int counter, IExtractor<IDocument, Book> extractor, Stopwatch timer)
     {
+        if (_linkRepository.IsLinkParsed(info.URLResource))
+        {
+            Console.WriteLine($"{info.URLResource} contains in db");
+            return Task.CompletedTask;
+        }
+
         var rawInfo =  extractor.GetRawDataAsync(info).Result;
         var newBook =  extractor.HandleAsync(rawInfo).Result;
         lock (_service)
