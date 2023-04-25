@@ -68,7 +68,7 @@ var userService = host.Services.GetService<BookService>();
  var provider = host.Services.GetService<LiveLibResourceInfoProvider>();
  var extractor = host.Services.GetService<ExtractorLiveLib>();
 var res =host.Services.GetService<IOptions<LiveLibProviderSettingsInfo>>();
-Console.ReadLine();
+//Console.ReadLine();
      //сбив капчи
      //var res = extractor.GetRawDataAsync(new ResourceInfo() { URLResource = "https://www.livelib.ru/readers" });
 
