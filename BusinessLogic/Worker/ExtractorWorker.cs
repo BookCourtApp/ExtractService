@@ -20,7 +20,7 @@ public class ExtractorWorker : BackgroundService
     public ExtractorWorker(ExtractorFactory extractorFactory,
                             ITaskQueue queue,
                             BookService service,
-                            int threadCount = 5)
+                            int threadCount = 10)
     {
         _extractorFactory = extractorFactory;
         _taskQueueService = queue;
