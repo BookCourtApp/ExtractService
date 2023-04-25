@@ -27,7 +27,7 @@ public class LiveLibResourceInfoProvider : IResourceInfoProvider
 
     public LiveLibResourceInfoProvider(Microsoft.Extensions.Configuration.IConfiguration configuration)
     {
-        _categoriesURL =  configuration.GetSection("LiveLibProviderSettingsInfo").Get<LiveLibProviderSettingsInfo>().CategoriesURL ; //.Get<LiveLibProviderSettingsInfo>().CategoriesURL;
+        _categoriesURL = configuration.GetSection("LiveLibProviderSettingsInfo").Get<LiveLibProviderSettingsInfo>().CategoriesURL ; //.Get<LiveLibProviderSettingsInfo>().CategoriesURL;
     }
     
 
@@ -85,9 +85,9 @@ public class LiveLibResourceInfoProvider : IResourceInfoProvider
         int numCategory = 0;
         foreach (var category in _categoriesURL)
         {
-            numCategory++;
-            if(numCategory == 1)
-                continue;
+            //numCategory++;
+            //if(numCategory == 1)
+            //    continue;
             Console.WriteLine("Started "+category);
             int i = 1;
             IDocument document = null;
