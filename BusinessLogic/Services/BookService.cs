@@ -38,22 +38,25 @@ public class BookService
         }
     }
 
-    public async Task AddBookAsync(Book book)
+    public async Task<string> AddBookAsync(Book book)
     {
         if (book.SiteBookId is null)
         {
-            return;
+            return "error";
         }
         var exists = await _repository.GetEqualBookAsync(book);
 
         if (!(exists is null))
         {
             book.Id = exists.Id;
-            return;await _repository.UpdateAsync(book);
+            return "exist";
+            await _repository.UpdateAsync(book);
         }
         else
         {
+            
             await _repository.CreateAsync(book);
+            return "";
         }
     }
 }

@@ -90,11 +90,22 @@ public class ExtractorWorker : BackgroundService
         var newBook =  extractor.HandleAsync(rawInfo).Result;
         lock (_service)
         {
-            //bookResults.Add(newBook);
-            _service.AddBookAsync(newBook);
+            newBook.SourceName = info.URLResource;
+            var res = _service.AddBookAsync(newBook).Result;
+            // switch (res)
+            // {
+            //     case "error":
+            //         Console.WriteLine($"Error on {info.URLResource}");
+            //         break;
+            //     case "exist":
+            //         Console.WriteLine($"Exist on {info.URLResource}");
+            //         break;
+            // }
+
             counter++;
             if (counter % 100 == 0)
             {
+                
                 Console.WriteLine($"counter={counter}; timer= {timer.ElapsedMilliseconds/1000}s");
             }
         }
